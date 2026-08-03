@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <!-- Essa meta tag bloqueia o zoom e o redimensionamento, essencial para parecer um App -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>App de Reparos</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Ícones do Google -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Cabeçalho Fixo -->
+        <header class="app-header">
+            <div class="user-info">
+                <h2>Olá, Cliente 👋</h2>
+                <p>O que vamos consertar hoje?</p>
+            </div>
+            <div class="avatar-placeholder">
+                <span class="material-icons-round">person</span>
+            </div>
+        </header>
+
+        <!-- Área de Conteúdo Rola Aqui (Tela Inicial) -->
+        <main class="app-content active" id="view-home">
+            <section class="search-bar">
+                <span class="material-icons-round">search</span>
+                <input type="text" placeholder="Ex: Eletricista, Encanador..." readonly>
+            </section>
+
+            <section class="banner-cta">
+                <div class="banner-text">
+                    <h3>Pequenos reparos</h3>
+                    <p>Sem dor de cabeça.</p>
+                </div>
+                <button class="btn-banner">Pedir Agora</button>
+            </section>
+
+            <section class="categories">
+                <h4>Categorias</h4>
+                <div class="grid">
+                    <div class="cat-card">
+                        <div class="icon-box blue"><span class="material-icons-round">water_drop</span></div>
+                        <span>Hidráulica</span>
+                    </div>
+                    <div class="cat-card">
+                        <div class="icon-box yellow"><span class="material-icons-round">bolt</span></div>
+                        <span>Elétrica</span>
+                    </div>
+                    <div class="cat-card">
+                        <div class="icon-box orange"><span class="material-icons-round">handyman</span></div>
+                        <span>Montagem</span>
+                    </div>
+                    <div class="cat-card">
+                        <div class="icon-box green"><span class="material-icons-round">format_paint</span></div>
+                        <span>Pintura</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Tela de Pedidos (Oculta por padrão) -->
+        <main class="app-content" id="view-orders">
+            <div class="empty-state">
+                <span class="material-icons-round" style="font-size: 48px; color: #ccc;">assignment</span>
+                <h3>Nenhum pedido ativo</h3>
+                <p>Seus serviços solicitados aparecerão aqui.</p>
+            </div>
+        </main>
+
+        <!-- Navegação Inferior (Padrão App) -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-target="view-home">
+                <span class="material-icons-round">home</span>
+                <span>Início</span>
+            </button>
+            <button class="nav-item" data-target="view-search">
+                <span class="material-icons-round">search</span>
+                <span>Buscar</span>
+            </button>
+            <button class="nav-item" data-target="view-orders">
+                <span class="material-icons-round">receipt_long</span>
+                <span>Pedidos</span>
+            </button>
+            <button class="nav-item" data-target="view-profile">
+                <span class="material-icons-round">account_circle</span>
+                <span>Perfil</span>
+            </button>
+        </nav>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
