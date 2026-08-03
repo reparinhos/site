@@ -2,12 +2,9 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <!-- Essa meta tag bloqueia o zoom e o redimensionamento, essencial para parecer um App -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>App de Reparos</title>
+    <title>Reparinhos</title>
     <link rel="stylesheet" href="style.css">
-    <script type="module" src="script.js"></script>
-    <!-- Ícones do Google -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 </head>
 <body>
@@ -15,15 +12,15 @@
         <!-- Cabeçalho Fixo -->
         <header class="app-header">
             <div class="user-info">
-                <h2>Olá, Cliente 👋</h2>
-                <p>O que vamos consertar hoje?</p>
+                <h2 id="header-user-name">Olá, Visitante 👋</h2>
+                <p id="header-user-status">O que vamos consertar hoje?</p>
             </div>
             <div class="avatar-placeholder">
                 <span class="material-icons-round">person</span>
             </div>
         </header>
 
-        <!-- Área de Conteúdo Rola Aqui (Tela Inicial) -->
+        <!-- Tela Inicial (Home) -->
         <main class="app-content active" id="view-home">
             <section class="search-bar">
                 <span class="material-icons-round">search</span>
@@ -61,7 +58,7 @@
             </section>
         </main>
 
-        <!-- Tela de Pedidos (Oculta por padrão) -->
+        <!-- Tela de Pedidos -->
         <main class="app-content" id="view-orders">
             <div class="empty-state">
                 <span class="material-icons-round" style="font-size: 48px; color: #ccc;">assignment</span>
@@ -70,15 +67,67 @@
             </div>
         </main>
 
-        <!-- Navegação Inferior (Padrão App) -->
+        <!-- Tela de Perfil / Login / Cadastro -->
+        <main class="app-content" id="view-profile">
+            <!-- Estado 1: Formulário de Autenticação (Aparece se deslogado) -->
+            <div id="auth-container" class="auth-card">
+                <div class="auth-tabs">
+                    <button id="tab-login" class="auth-tab-btn active">Entrar</button>
+                    <button id="tab-register" class="auth-tab-btn">Cadastrar</button>
+                </div>
+
+                <form id="auth-form" class="form-container">
+                    <!-- Campo Nome (aparece só no cadastro) -->
+                    <div class="input-group hidden" id="group-name">
+                        <label for="input-name">Nome Completo</label>
+                        <input type="text" id="input-name" placeholder="Seu nome">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="input-email">E-mail</label>
+                        <input type="email" id="input-email" placeholder="seuemail@exemplo.com" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="input-password">Senha</label>
+                        <input type="password" id="input-password" placeholder="Mínimo 6 caracteres" required>
+                    </div>
+
+                    <!-- Tipo de conta (aparece só no cadastro) -->
+                    <div class="input-group hidden" id="group-type">
+                        <label for="select-type">Você quer:</label>
+                        <select id="select-type">
+                            <option value="cliente">Contratar serviços (Cliente)</option>
+                            <option value="prestador">Prestar serviços (Profissional)</option>
+                        </select>
+                    </div>
+
+                    <p id="auth-message" class="auth-message"></p>
+
+                    <button type="submit" id="btn-auth-submit" class="btn-primary">Entrar</button>
+                </form>
+            </div>
+
+            <!-- Estado 2: Perfil Logado (Aparece se logado) -->
+            <div id="user-profile-container" class="profile-card hidden">
+                <div class="profile-header">
+                    <span class="material-icons-round avatar-large">account_circle</span>
+                    <h3 id="profile-name">Nome do Usuário</h3>
+                    <p id="profile-email">email@usuario.com</p>
+                    <span id="profile-type-badge" class="badge">Cliente</span>
+                </div>
+
+                <div class="profile-actions">
+                    <button id="btn-logout" class="btn-secondary">Sair da Conta</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Navegação Inferior -->
         <nav class="bottom-nav">
             <button class="nav-item active" data-target="view-home">
                 <span class="material-icons-round">home</span>
                 <span>Início</span>
-            </button>
-            <button class="nav-item" data-target="view-search">
-                <span class="material-icons-round">search</span>
-                <span>Buscar</span>
             </button>
             <button class="nav-item" data-target="view-orders">
                 <span class="material-icons-round">receipt_long</span>
@@ -91,6 +140,6 @@
         </nav>
     </div>
 
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
