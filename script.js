@@ -1,6 +1,6 @@
-// 1. Importações do SDK do Firebase
+// 1. Importações do Firebase (Agora com Google Auth)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 // 2. Chaves do seu Projeto 'Reparinhos'
@@ -13,54 +13,22 @@ const firebaseConfig = {
     appId: "1:723417655069:web:475bba950ec23453bd23f4"
 };
 
-// Inicializa o Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const googleProvider = new GoogleAuthProvider();
 
-// 3. Banco de Dados Local de Reparos (A lista do app)
+// 3. Banco de Dados Local de Reparos
 const listagemServicos = {
-    'hidraulica': {
-        titulo: 'Hidráulica',
-        reparos: [
-            { nome: 'Troca de sifão', desc: 'Pia da cozinha ou banheiro' },
-            { nome: 'Conserto de vazamento', desc: 'Torneiras e registros pingando' },
-            { nome: 'Instalação de chuveiro', desc: 'Chuveiro elétrico ou ducha' },
-            { nome: 'Desentupimento de ralo', desc: 'Pias e ralos superficiais' }
-        ]
-    },
-    'eletrica': {
-        titulo: 'Elétrica',
-        reparos: [
-            { nome: 'Tomadas e interruptores', desc: 'Troca ou nova instalação' },
-            { nome: 'Troca de disjuntor', desc: 'Substituição de peça defeituosa' },
-            { nome: 'Ventilador de teto', desc: 'Montagem e instalação elétrica' },
-            { nome: 'Luminárias/Lâmpadas', desc: 'Lustres, plafons e spots' }
-        ]
-    },
-    'montagem': {
-        titulo: 'Montagem',
-        reparos: [
-            { nome: 'Montagem de móveis', desc: 'Guarda-roupa, mesas, estantes' },
-            { nome: 'Instalação de prateleiras', desc: 'Furação e nivelamento' },
-            { nome: 'Suporte para TV', desc: 'Fixação segura na parede' },
-            { nome: 'Quadros e Espelhos', desc: 'Furação sem sujeira' }
-        ]
-    },
-    'pintura': {
-        titulo: 'Pintura',
-        reparos: [
-            { nome: 'Pintura de pequenas paredes', desc: 'Até 10m²' },
-            { nome: 'Retoque de pintura', desc: 'Correção de manchas' },
-            { nome: 'Massa corrida', desc: 'Tapar furos e pequenos buracos' },
-            { nome: 'Portas e Janelas', desc: 'Pintura ou envernizamento' }
-        ]
-    }
+    'hidraulica': { titulo: 'Hidráulica', reparos: [{ nome: 'Troca de sifão', desc: 'Pia da cozinha/banheiro' }, { nome: 'Conserto de vazamento', desc: 'Torneiras e registros' }, { nome: 'Instalação de chuveiro', desc: 'Chuveiro ou ducha' }, { nome: 'Desentupimento de ralo', desc: 'Pias e ralos' }] },
+    'eletrica': { titulo: 'Elétrica', reparos: [{ nome: 'Tomadas/interruptores', desc: 'Troca ou nova instalação' }, { nome: 'Troca de disjuntor', desc: 'Substituição' }, { nome: 'Ventilador de teto', desc: 'Montagem e instalação' }, { nome: 'Luminárias/Lâmpadas', desc: 'Lustres e plafons' }] },
+    'montagem': { titulo: 'Montagem', reparos: [{ nome: 'Montagem de móveis', desc: 'Guarda-roupa, mesas' }, { nome: 'Instalação de prateleiras', desc: 'Furação e nivelamento' }, { nome: 'Suporte para TV', desc: 'Fixação na parede' }, { nome: 'Quadros e Espelhos', desc: 'Furação sem sujeira' }] },
+    'pintura': { titulo: 'Pintura', reparos: [{ nome: 'Pintura de paredes', desc: 'Até 10m²' }, { nome: 'Retoque de pintura', desc: 'Correção de manchas' }, { nome: 'Massa corrida', desc: 'Tapar pequenos buracos' }, { nome: 'Portas e Janelas', desc: 'Pintura/envernizamento' }] }
 };
 
 document.addEventListener("DOMContentLoaded", () => {
     
-    // --- LÓGICA DE NAVEGAÇÃO BÁSICA (MENU INFERIOR) ---
+    // --- NAVEGAÇÃO BÁSICA ---
     const navItems = document.querySelectorAll('.nav-item');
     const views = document.querySelectorAll('.app-content');
 
@@ -79,25 +47,19 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-
-    // --- LÓGICA DAS CATEGORIAS (CLICAR NO CARD E ABRIR LISTA) ---
+    // --- LÓGICA DAS CATEGORIAS (Cards) ---
     const catCards = document.querySelectorAll('.cat-card');
-    const btnBackHome = document.getElementById('btn-back-home');
-    const categoryTitle = document.getElementById('category-title');
     const repairsListContainer = document.getElementById('repairs-list');
 
-    // Ao clicar em uma categoria da Home
     catCards.forEach(card => {
         card.addEventListener('click', () => {
             const catKey = card.getAttribute('data-category');
             const data = listagemServicos[catKey];
 
             if(data) {
-                // Atualiza o título
-                categoryTitle.textContent = data.titulo;
-                
-                // Limpa a lista antiga e gera os novos cards de serviço
+                document.getElementById('category-title').textContent = data.titulo;
                 repairsListContainer.innerHTML = '';
+                
                 data.reparos.forEach(servico => {
                     const itemDiv = document.createElement('div');
                     itemDiv.className = 'repair-item';
@@ -111,140 +73,131 @@ document.addEventListener("DOMContentLoaded", () => {
                     repairsListContainer.appendChild(itemDiv);
                 });
 
-                // Muda de tela
                 changeView('view-category-details');
-                // Remove seleção visual do menu inferior pois estamos em uma sub-tela
                 navItems.forEach(nav => nav.classList.remove('active'));
             }
         });
     });
 
-    // Botão Voltar da tela de Categorias
-    btnBackHome.addEventListener('click', () => {
+    document.getElementById('btn-back-home').addEventListener('click', () => {
         changeView('view-home');
-        // Devolve seleção visual ao botão Home
         document.querySelector('[data-target="view-home"]').classList.add('active');
     });
 
-    // Botão "Pedir Agora" do Banner vai para o perfil
     document.getElementById('btn-banner-pedir').addEventListener('click', () => {
         navItems.forEach(nav => nav.classList.remove('active'));
         document.querySelector('[data-target="view-profile"]').classList.add('active');
         changeView('view-profile');
     });
 
+    // --- LÓGICA DO FIREBASE / LOGIN GOOGLE ---
+    const loginContainer = document.getElementById('auth-login-container');
+    const completionContainer = document.getElementById('auth-completion-container');
+    const profileContainer = document.getElementById('user-profile-container');
 
-    // --- LÓGICA DE AUTENTICAÇÃO (FIREBASE) ---
-    let isLoginMode = true;
-    const tabLogin = document.getElementById('tab-login');
-    const tabRegister = document.getElementById('tab-register');
-    const groupName = document.getElementById('group-name');
-    const groupType = document.getElementById('group-type');
-    const btnSubmit = document.getElementById('btn-auth-submit');
-    const authForm = document.getElementById('auth-form');
-    const authMessage = document.getElementById('auth-message');
-
-    tabLogin.addEventListener('click', () => {
-        isLoginMode = true;
-        tabLogin.classList.add('active');
-        tabRegister.classList.remove('active');
-        groupName.classList.add('hidden');
-        groupType.classList.add('hidden');
-        btnSubmit.textContent = "Entrar";
-        authMessage.textContent = "";
-    });
-
-    tabRegister.addEventListener('click', () => {
-        isLoginMode = false;
-        tabRegister.classList.add('active');
-        tabLogin.classList.remove('active');
-        groupName.classList.remove('hidden');
-        groupType.classList.remove('hidden');
-        btnSubmit.textContent = "Criar Conta";
-        authMessage.textContent = "";
-    });
-
-    // Cadastro / Login Envio
-    authForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('input-email').value;
-        const password = document.getElementById('input-password').value;
-        const name = document.getElementById('input-name').value;
-        const userType = document.getElementById('select-type').value;
-
-        authMessage.className = "auth-message";
-        authMessage.textContent = "Aguarde...";
-
+    // Botão de Login com Google
+    document.getElementById('btn-google-login').addEventListener('click', async () => {
+        const errorMsg = document.getElementById('auth-error-message');
+        errorMsg.textContent = "Abrindo o Google...";
         try {
-            if (isLoginMode) {
-                await signInWithEmailAndPassword(auth, email, password);
-                authMessage.className = "auth-message success";
-                authMessage.textContent = "Login efetuado com sucesso!";
-            } else {
-                if (!name) {
-                    authMessage.className = "auth-message error";
-                    authMessage.textContent = "Por favor, digite seu nome.";
-                    return;
-                }
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-
-                // Salva no Firestore
-                await setDoc(doc(db, "usuarios", user.uid), {
-                    nome: name,
-                    email: email,
-                    tipo: userType,
-                    criadoEm: new Date()
-                });
-                authMessage.className = "auth-message success";
-                authMessage.textContent = "Conta criada com sucesso!";
-            }
+            await signInWithPopup(auth, googleProvider);
+            errorMsg.textContent = "";
         } catch (error) {
-            authMessage.className = "auth-message error";
-            switch (error.code) {
-                case 'auth/email-already-in-use': authMessage.textContent = "E-mail já cadastrado."; break;
-                case 'auth/weak-password': authMessage.textContent = "Senha muito fraca (mín. 6)."; break;
-                case 'auth/invalid-credential':
-                case 'auth/user-not-found':
-                case 'auth/wrong-password': authMessage.textContent = "Dados incorretos."; break;
-                default: authMessage.textContent = "Erro: " + error.message;
-            }
+            errorMsg.textContent = "Erro ao fazer login: " + error.message;
         }
     });
 
-    // Logout
+    // Salvar Dados Complementares do Perfil
+    document.getElementById('completion-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const user = auth.currentUser;
+        if (!user) return;
+
+        const btnSave = document.getElementById('btn-save-profile');
+        btnSave.textContent = "Salvando...";
+        
+        const dadosPerfil = {
+            nome: document.getElementById('comp-nome').value,
+            cpf: document.getElementById('comp-cpf').value,
+            whatsapp: document.getElementById('comp-whatsapp').value,
+            cep: document.getElementById('comp-cep').value,
+            endereco: document.getElementById('comp-endereco').value,
+            email: user.email,
+            tipo: 'cliente',
+            perfilCompleto: true,
+            atualizadoEm: new Date()
+        };
+
+        try {
+            // Salva no banco de dados (mescla com qualquer dado existente)
+            await setDoc(doc(db, "usuarios", user.uid), dadosPerfil, { merge: true });
+            btnSave.textContent = "Salvo com sucesso!";
+            
+            // Força a atualização da interface verificando o estado da Auth novamente
+            verificarEstadoUsuario(user);
+        } catch (error) {
+            alert("Erro ao salvar: " + error.message);
+            btnSave.textContent = "Tentar Novamente";
+        }
+    });
+
+    // Botão Sair
     document.getElementById('btn-logout').addEventListener('click', () => {
         signOut(auth);
     });
 
-    // Monitora Mudanças de Estado do Usuário
-    onAuthStateChanged(auth, async (user) => {
-        const authContainer = document.getElementById('auth-container');
-        const profileContainer = document.getElementById('user-profile-container');
+    // Função que gerencia o que o usuário vê (Login > Completar Perfil > Perfil Logado)
+    async function verificarEstadoUsuario(user) {
         const headerUserName = document.getElementById('header-user-name');
-        const headerUserStatus = document.getElementById('header-user-status');
-
+        
         if (user) {
-            authContainer.classList.add('hidden');
-            profileContainer.classList.remove('hidden');
-
+            // Usuário logado. Vamos checar se o perfil está completo no Banco de Dados
             const docRef = doc(db, "usuarios", user.uid);
             const docSnap = await getDoc(docRef);
 
-            if (docSnap.exists()) {
+            if (docSnap.exists() && docSnap.data().perfilCompleto === true) {
+                // ESTADO 3: PERFIL COMPLETO E LOGADO
                 const userData = docSnap.data();
+                
+                loginContainer.classList.add('hidden');
+                completionContainer.classList.add('hidden');
+                profileContainer.classList.remove('hidden');
+
                 document.getElementById('profile-name').textContent = userData.nome;
                 document.getElementById('profile-email').textContent = userData.email;
-                document.getElementById('profile-type-badge').textContent = userData.tipo === 'cliente' ? 'Cliente' : 'Profissional';
+                document.getElementById('profile-zap').textContent = userData.whatsapp;
+                document.getElementById('profile-end').textContent = userData.endereco;
                 
                 headerUserName.textContent = `Olá, ${userData.nome.split(' ')[0]} 👋`;
-                headerUserStatus.textContent = userData.tipo === 'cliente' ? 'O que vamos consertar hoje?' : 'Pronto para os serviços?';
+
+                // Coloca a foto do Google se tiver
+                if (user.photoURL) {
+                    document.getElementById('profile-icon').style.display = 'none';
+                    const pic = document.getElementById('profile-pic');
+                    pic.src = user.photoURL;
+                    pic.style.display = 'block';
+                }
+
+            } else {
+                // ESTADO 2: PRECISA COMPLETAR O PERFIL
+                loginContainer.classList.add('hidden');
+                profileContainer.classList.add('hidden');
+                completionContainer.classList.remove('hidden');
+                
+                // Pré-preenche o nome caso o Google tenha fornecido
+                if(user.displayName) {
+                    document.getElementById('comp-nome').value = user.displayName;
+                }
             }
         } else {
-            authContainer.classList.remove('hidden');
+            // ESTADO 1: NÃO LOGADO
+            loginContainer.classList.remove('hidden');
+            completionContainer.classList.add('hidden');
             profileContainer.classList.add('hidden');
             headerUserName.textContent = "Olá, Visitante 👋";
-            headerUserStatus.textContent = "O que vamos consertar hoje?";
         }
-    });
+    }
+
+    // Monitora Mudanças de Estado do Usuário no Firebase
+    onAuthStateChanged(auth, verificarEstadoUsuario);
 });
