@@ -20,7 +20,7 @@
             </div>
         </header>
 
-        <!-- Tela Inicial (Home) -->
+        <!-- Tela 1: Início (Home) -->
         <main class="app-content active" id="view-home">
             <section class="search-bar">
                 <span class="material-icons-round">search</span>
@@ -32,25 +32,26 @@
                     <h3>Pequenos reparos</h3>
                     <p>Sem dor de cabeça.</p>
                 </div>
-                <button class="btn-banner">Pedir Agora</button>
+                <button id="btn-banner-pedir" class="btn-banner">Pedir Agora</button>
             </section>
 
             <section class="categories">
                 <h4>Categorias</h4>
                 <div class="grid">
-                    <div class="cat-card">
+                    <!-- Adicionado 'data-category' para o JavaScript identificar o clique -->
+                    <div class="cat-card" data-category="hidraulica">
                         <div class="icon-box blue"><span class="material-icons-round">water_drop</span></div>
                         <span>Hidráulica</span>
                     </div>
-                    <div class="cat-card">
+                    <div class="cat-card" data-category="eletrica">
                         <div class="icon-box yellow"><span class="material-icons-round">bolt</span></div>
                         <span>Elétrica</span>
                     </div>
-                    <div class="cat-card">
+                    <div class="cat-card" data-category="montagem">
                         <div class="icon-box orange"><span class="material-icons-round">handyman</span></div>
                         <span>Montagem</span>
                     </div>
-                    <div class="cat-card">
+                    <div class="cat-card" data-category="pintura">
                         <div class="icon-box green"><span class="material-icons-round">format_paint</span></div>
                         <span>Pintura</span>
                     </div>
@@ -58,7 +59,21 @@
             </section>
         </main>
 
-        <!-- Tela de Pedidos -->
+        <!-- Tela 2: Lista de Serviços por Categoria (Invisível por padrão) -->
+        <main class="app-content" id="view-category-details">
+            <div class="category-header-bar">
+                <button id="btn-back-home" class="btn-icon-back">
+                    <span class="material-icons-round">arrow_back</span>
+                </button>
+                <h3 id="category-title">Nome da Categoria</h3>
+            </div>
+            
+            <p class="section-subtitle">Escolha o serviço desejado:</p>
+            <!-- A lista será gerada aqui pelo JavaScript -->
+            <div id="repairs-list" class="repairs-list"></div>
+        </main>
+
+        <!-- Tela 3: Pedidos -->
         <main class="app-content" id="view-orders">
             <div class="empty-state">
                 <span class="material-icons-round" style="font-size: 48px; color: #ccc;">assignment</span>
@@ -67,9 +82,9 @@
             </div>
         </main>
 
-        <!-- Tela de Perfil / Login / Cadastro -->
+        <!-- Tela 4: Perfil / Autenticação -->
         <main class="app-content" id="view-profile">
-            <!-- Estado 1: Formulário de Autenticação (Aparece se deslogado) -->
+            <!-- Estado 1: Form de Login/Cadastro -->
             <div id="auth-container" class="auth-card">
                 <div class="auth-tabs">
                     <button id="tab-login" class="auth-tab-btn active">Entrar</button>
@@ -77,23 +92,18 @@
                 </div>
 
                 <form id="auth-form" class="form-container">
-                    <!-- Campo Nome (aparece só no cadastro) -->
                     <div class="input-group hidden" id="group-name">
                         <label for="input-name">Nome Completo</label>
                         <input type="text" id="input-name" placeholder="Seu nome">
                     </div>
-
                     <div class="input-group">
                         <label for="input-email">E-mail</label>
                         <input type="email" id="input-email" placeholder="seuemail@exemplo.com" required>
                     </div>
-
                     <div class="input-group">
                         <label for="input-password">Senha</label>
                         <input type="password" id="input-password" placeholder="Mínimo 6 caracteres" required>
                     </div>
-
-                    <!-- Tipo de conta (aparece só no cadastro) -->
                     <div class="input-group hidden" id="group-type">
                         <label for="select-type">Você quer:</label>
                         <select id="select-type">
@@ -101,22 +111,19 @@
                             <option value="prestador">Prestar serviços (Profissional)</option>
                         </select>
                     </div>
-
                     <p id="auth-message" class="auth-message"></p>
-
                     <button type="submit" id="btn-auth-submit" class="btn-primary">Entrar</button>
                 </form>
             </div>
 
-            <!-- Estado 2: Perfil Logado (Aparece se logado) -->
+            <!-- Estado 2: Perfil do Usuário Logado -->
             <div id="user-profile-container" class="profile-card hidden">
                 <div class="profile-header">
                     <span class="material-icons-round avatar-large">account_circle</span>
-                    <h3 id="profile-name">Nome do Usuário</h3>
+                    <h3 id="profile-name">Nome</h3>
                     <p id="profile-email">email@usuario.com</p>
                     <span id="profile-type-badge" class="badge">Cliente</span>
                 </div>
-
                 <div class="profile-actions">
                     <button id="btn-logout" class="btn-secondary">Sair da Conta</button>
                 </div>
@@ -140,6 +147,7 @@
         </nav>
     </div>
 
+    <!-- Script modular do Firebase -->
     <script type="module" src="script.js"></script>
 </body>
 </html>
