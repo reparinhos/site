@@ -38,7 +38,6 @@
             <section class="categories">
                 <h4>Categorias</h4>
                 <div class="grid">
-                    <!-- Adicionado 'data-category' para o JavaScript identificar o clique -->
                     <div class="cat-card" data-category="hidraulica">
                         <div class="icon-box blue"><span class="material-icons-round">water_drop</span></div>
                         <span>Hidráulica</span>
@@ -59,7 +58,7 @@
             </section>
         </main>
 
-        <!-- Tela 2: Lista de Serviços por Categoria (Invisível por padrão) -->
+        <!-- Tela 2: Lista de Serviços por Categoria -->
         <main class="app-content" id="view-category-details">
             <div class="category-header-bar">
                 <button id="btn-back-home" class="btn-icon-back">
@@ -67,9 +66,7 @@
                 </button>
                 <h3 id="category-title">Nome da Categoria</h3>
             </div>
-            
             <p class="section-subtitle">Escolha o serviço desejado:</p>
-            <!-- A lista será gerada aqui pelo JavaScript -->
             <div id="repairs-list" class="repairs-list"></div>
         </main>
 
@@ -84,46 +81,62 @@
 
         <!-- Tela 4: Perfil / Autenticação -->
         <main class="app-content" id="view-profile">
-            <!-- Estado 1: Form de Login/Cadastro -->
-            <div id="auth-container" class="auth-card">
-                <div class="auth-tabs">
-                    <button id="tab-login" class="auth-tab-btn active">Entrar</button>
-                    <button id="tab-register" class="auth-tab-btn">Cadastrar</button>
-                </div>
+            
+            <!-- Estado 1: Login com Google -->
+            <div id="auth-login-container" class="auth-card">
+                <h3 style="text-align: center; margin-bottom: 20px;">Acesse sua conta</h3>
+                <button id="btn-google-login" class="btn-google">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo">
+                    Continuar com o Google
+                </button>
+                <p id="auth-error-message" class="auth-message error"></p>
+            </div>
 
-                <form id="auth-form" class="form-container">
-                    <div class="input-group hidden" id="group-name">
-                        <label for="input-name">Nome Completo</label>
-                        <input type="text" id="input-name" placeholder="Seu nome">
+            <!-- Estado 2: Completar Perfil (Primeiro acesso) -->
+            <div id="auth-completion-container" class="auth-card hidden">
+                <h3 style="margin-bottom: 8px; color: var(--primary);">Quase lá!</h3>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Precisamos de mais alguns dados para podermos enviar nossos profissionais até você.</p>
+                
+                <form id="completion-form" class="form-container">
+                    <div class="input-group">
+                        <label>Nome Completo</label>
+                        <input type="text" id="comp-nome" required>
                     </div>
                     <div class="input-group">
-                        <label for="input-email">E-mail</label>
-                        <input type="email" id="input-email" placeholder="seuemail@exemplo.com" required>
+                        <label>CPF</label>
+                        <input type="text" id="comp-cpf" placeholder="000.000.000-00" required>
                     </div>
                     <div class="input-group">
-                        <label for="input-password">Senha</label>
-                        <input type="password" id="input-password" placeholder="Mínimo 6 caracteres" required>
+                        <label>WhatsApp</label>
+                        <input type="tel" id="comp-whatsapp" placeholder="(00) 00000-0000" required>
                     </div>
-                    <div class="input-group hidden" id="group-type">
-                        <label for="select-type">Você quer:</label>
-                        <select id="select-type">
-                            <option value="cliente">Contratar serviços (Cliente)</option>
-                            <option value="prestador">Prestar serviços (Profissional)</option>
-                        </select>
+                    <div class="input-group">
+                        <label>CEP</label>
+                        <input type="text" id="comp-cep" placeholder="00000-000" required>
                     </div>
-                    <p id="auth-message" class="auth-message"></p>
-                    <button type="submit" id="btn-auth-submit" class="btn-primary">Entrar</button>
+                    <div class="input-group">
+                        <label>Endereço Completo</label>
+                        <input type="text" id="comp-endereco" placeholder="Rua, Número, Complemento, Bairro" required>
+                    </div>
+                    <button type="submit" id="btn-save-profile" class="btn-primary">Salvar Meu Cadastro</button>
                 </form>
             </div>
 
-            <!-- Estado 2: Perfil do Usuário Logado -->
+            <!-- Estado 3: Perfil do Usuário Logado e Completo -->
             <div id="user-profile-container" class="profile-card hidden">
                 <div class="profile-header">
-                    <span class="material-icons-round avatar-large">account_circle</span>
+                    <img id="profile-pic" src="" alt="Avatar" class="avatar-img" style="display: none;">
+                    <span id="profile-icon" class="material-icons-round avatar-large">account_circle</span>
                     <h3 id="profile-name">Nome</h3>
                     <p id="profile-email">email@usuario.com</p>
-                    <span id="profile-type-badge" class="badge">Cliente</span>
+                    <span class="badge">Cliente</span>
                 </div>
+                
+                <div style="margin-top: 20px; font-size: 14px; color: var(--text-muted);">
+                    <p><strong>WhatsApp:</strong> <span id="profile-zap"></span></p>
+                    <p><strong>Endereço:</strong> <span id="profile-end"></span></p>
+                </div>
+
                 <div class="profile-actions">
                     <button id="btn-logout" class="btn-secondary">Sair da Conta</button>
                 </div>
