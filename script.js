@@ -5,19 +5,25 @@ import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/fireb
 
 // 2. Chaves do seu Projeto 'Reparinhos'
 const firebaseConfig = {
-    apiKey: "AIzaSyD3Un6TzwRP_uCMbH_5Icu48ayJpdrifKY",
-    authDomain: "reparinhos.firebaseapp.com",
-    projectId: "reparinhos",
-    storageBucket: "reparinhos.firebasestorage.app",
-    messagingSenderId: "723417655069",
-    appId: "1:723417655069:web:475bba950ec23453bd23f4"
+  apiKey: "AIzaSyD3Un6TzwRP_uCMBh_5Icu48ayJpdrifKY",
+  authDomain: "reparinhos.firebaseapp.com",
+  projectId: "reparinhos",
+  storageBucket: "reparinhos.firebasestorage.app",
+  messagingSenderId: "723417655069",
+  appId: "1:723417655069:web:475bba950ec23453bd23f4"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
+// termina aqui
 
+
+
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 // 3. Banco de Dados Local de Reparos
 const listagemServicos = {
     'hidraulica': { titulo: 'Hidráulica', reparos: [{ nome: 'Troca de sifão', desc: 'Pia da cozinha/banheiro' }, { nome: 'Conserto de vazamento', desc: 'Torneiras e registros' }, { nome: 'Instalação de chuveiro', desc: 'Chuveiro ou ducha' }, { nome: 'Desentupimento de ralo', desc: 'Pias e ralos' }] },
