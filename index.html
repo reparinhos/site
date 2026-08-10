@@ -1,48 +1,50 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Resolve 1 Dia</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <div id="app">
         <header>
             <div class="header-title">Resolve <span>1 Dia</span></div>
             <div class="search-container">
-                <input type="text" id="search-input" placeholder="Buscar serviço..." autocomplete="off">
+                <input type="text" id="search-input" placeholder="O que você precisa?" autocomplete="off">
                 <div id="search-suggestions"></div>
             </div>
         </header>
 
-        <main id="view-categories" class="view active">
-            <div class="grid" id="categories-grid"></div>
-        </main>
+        <div id="content-area">
+            <!-- TELA 1: CATEGORIAS -->
+            <main id="view-categories" class="view active">
+                <div class="grid" id="categories-grid"></div>
+            </main>
 
-        <main id="view-service-list" class="view">
-            <div class="view-header">
-                <button class="close-btn" onclick="showView('view-categories')">✕ Fechar</button>
-                <div class="view-title" id="list-category-title"></div>
-            </div>
-            <ul class="service-list" id="services-ul"></ul>
-        </main>
+            <!-- TELA 2: LISTA -->
+            <main id="view-service-list" class="view">
+                <div class="view-nav">
+                    <button class="close-btn" onclick="showView('view-categories')">✕ Fechar</button>
+                    <h2 id="list-category-title"></h2>
+                </div>
+                <ul class="service-list" id="services-ul"></ul>
+            </main>
 
-        <main id="view-service-detail" class="view">
-            <div class="view-header">
-                <button class="close-btn" onclick="showView('view-categories')">✕ Fechar</button>
-            </div>
-            <div class="detail-card">
-                <div class="detail-category" id="detail-category"></div>
-                <h1 class="detail-title" id="detail-title"></h1>
-                <p class="detail-description" id="detail-description"></p>
-                <a href="#" id="btn-whatsapp" class="btn-whatsapp" target="_blank">Solicitar Orçamento</a>
-            </div>
-        </main>
+            <!-- TELA 3: DETALHE -->
+            <main id="view-service-detail" class="view">
+                <div class="view-nav">
+                    <button class="close-btn" onclick="showView('view-categories')">✕ Fechar</button>
+                </div>
+                <div class="detail-card">
+                    <span class="detail-badge" id="detail-category"></span>
+                    <h1 class="detail-title" id="detail-title"></h1>
+                    <p class="detail-description" id="detail-description"></p>
+                    <a href="#" id="btn-whatsapp" class="btn-whatsapp">Solicitar Orçamento</a>
+                </div>
+            </main>
+        </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
