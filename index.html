@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Reparos Rápidos - 1 Dia</title>
+    <title>Resolve 1 Dia</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,15 +11,55 @@
     <div id="app">
         <!-- HEADER FIXO -->
         <header>
-            <div class="header-title">Reparos em 1 Dia</div>
+            <div class="header-top">
+                <h1 class="header-title">Resolve 1 Dia</h1>
+                <img src="logo.png" alt="Logo" class="header-logo">
+            </div>
             <div class="search-container">
-                <input type="text" id="search-input" placeholder="Buscar serviço (ex: rodapé, torneira)..." autocomplete="off">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="search-input" placeholder="Busque um serviço..." autocomplete="off">
                 <div id="search-suggestions"></div>
             </div>
         </header>
 
         <!-- TELA 1: CATEGORIAS -->
         <main id="view-categories" class="view active">
+            
+            <!-- SEÇÃO: COMO FUNCIONA -->
+            <section class="how-it-works-card">
+                <h3 class="how-it-works-title">Como Funciona</h3>
+                <div class="how-it-works-body">
+                    <!-- Esquerda: Imagem -->
+                    <div class="how-it-works-left">
+                        <img src="logo.png" alt="Logo Resolve 1 Dia" class="how-it-works-img">
+                    </div>
+                    
+                    <!-- Direita: Passos Verticais -->
+                    <div class="how-it-works-right">
+                        <div class="step-item">
+                            <div class="step-badge">1</div>
+                            <div class="step-content">
+                                <strong>Selecione</strong> o serviço desejado
+                            </div>
+                        </div>
+                        <div class="step-line"></div>
+                        <div class="step-item">
+                            <div class="step-badge">2</div>
+                            <div class="step-content">
+                                <strong>Solicite</strong> seu orçamento rápido
+                            </div>
+                        </div>
+                        <div class="step-line"></div>
+                        <div class="step-item">
+                            <div class="step-badge">3</div>
+                            <div class="step-content">
+                                <strong>Agende</strong> seu serviço e pronto!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <h2 class="section-subtitle">Selecione o profissional:</h2>
             <div class="grid" id="categories-grid">
                 <!-- Gerado dinamicamente via JS -->
@@ -29,8 +69,8 @@
         <!-- TELA 2: LISTA DE SERVIÇOS DA CATEGORIA -->
         <main id="view-service-list" class="view">
             <div class="view-header">
-                <button class="back-btn" id="btn-back-categories">← Voltar</button>
-                <div class="view-title" id="list-category-title">Categoria</div>
+                <h2 class="view-title" id="list-category-title">Categoria</h2>
+                <button class="close-btn" id="btn-close-list" aria-label="Fechar">✕</button>
             </div>
             <ul class="service-list" id="services-ul">
                 <!-- Gerado dinamicamente via JS -->
@@ -39,10 +79,8 @@
 
         <!-- TELA 3: DETALHE DO SERVIÇO -->
         <main id="view-service-detail" class="view">
-            <div class="view-header">
-                <button class="back-btn" id="btn-back-list">← Voltar</button>
-            </div>
             <div class="detail-card">
+                <button class="close-btn" id="btn-close-detail" aria-label="Fechar">✕</button>
                 <div class="detail-category" id="detail-category">Categoria</div>
                 <h1 class="detail-title" id="detail-title">Nome do Serviço</h1>
                 <p class="detail-description" id="detail-description">Explicação do serviço...</p>
