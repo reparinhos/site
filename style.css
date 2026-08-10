@@ -1,30 +1,44 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@700&display=swap');
-
 :root {
     --primary: #1E3A8A;
     --accent: #F97316;
     --whatsapp: #25D366;
-    --bg: #F8FAFC;
-    --card-bg: #FFFFFF;
-    --text-main: #0F172A;
-    --text-muted: #64748B;
+    --bg: #F1F5F9;
 }
 
-body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; }
-#app { max-width: 600px; margin: 0 auto; min-height: 100vh; background: var(--bg); }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-header { background: linear-gradient(135deg, var(--primary) 0%, #172554 100%); padding: 20px; border-bottom: 3px solid var(--accent); }
-.header-title { color: white; font-family: 'Poppins', sans-serif; font-size: 1.4rem; text-align: center; margin-bottom: 15px; }
+body, html { 
+    height: 100%; margin: 0; padding: 0; 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    overflow: hidden; /* App não rola a página, só o conteúdo */
+}
+
+#app { 
+    width: 100%; height: 100%; max-width: 500px; margin: 0 auto; 
+    background: var(--bg); display: flex; flex-direction: column; 
+    box-shadow: 0 0 20px rgba(0,0,0,0.1); position: relative;
+}
+
+/* Fixar Header */
+header { background: var(--primary); padding: 16px; flex-shrink: 0; }
+.header-title { color: white; font-weight: bold; font-size: 1.2rem; text-align: center; margin-bottom: 12px; }
 .header-title span { color: var(--accent); }
 
-#search-input { width: 100%; padding: 12px; border-radius: 10px; border: none; }
-.view { display: none; padding: 20px; }
+/* Área de conteúdo rolável */
+#content-area { flex: 1; overflow-y: auto; position: relative; }
+
+.view { display: none; padding: 16px; animation: fadeIn 0.3s; }
 .view.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-.card-category { background: white; padding: 20px; border-radius: 12px; text-align: center; border: 1px solid #E2E8F0; cursor: pointer; }
+/* Elementos do App */
+.view-nav { display: flex; align-items: center; margin-bottom: 15px; }
+.close-btn { background: #E2E8F0; border: none; padding: 8px 12px; border-radius: 8px; font-weight: 600; cursor: pointer; margin-right: 15px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.card-category { background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 
-.close-btn { background: none; border: 1px solid var(--text-muted); color: var(--text-muted); padding: 5px 12px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; }
-.service-item { background: white; padding: 15px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #E2E8F0; cursor: pointer; }
-.detail-card { background: white; padding: 25px; border-radius: 15px; text-align: center; border-top: 5px solid var(--accent); }
-.btn-whatsapp { display: block; background: var(--whatsapp); color: white; padding: 15px; border-radius: 10px; text-decoration: none; font-weight: bold; }
+.service-list { list-style: none; padding: 0; }
+.service-item { background: white; padding: 16px; margin-bottom: 8px; border-radius: 10px; font-weight: 500; }
+
+.detail-card { background: white; padding: 20px; border-radius: 16px; }
+.btn-whatsapp { display: block; background: var(--whatsapp); color: white; text-align: center; padding: 16px; border-radius: 12px; text-decoration: none; font-weight: bold; margin-top: 20px; }
