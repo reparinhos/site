@@ -4,7 +4,7 @@ const CONFIG = {
     minSearchLength: 2
 };
 
-// DATA STORE DE CATEGORIAS (Pronto para consumo de CRM/API)
+// DATA STORE DE CATEGORIAS
 const categoriesData = [
     { id: "cat-hidraulico", name: "Hidráulico", icon: "💧" },
     { id: "cat-eletrico", name: "Elétrico", icon: "⚡" },
@@ -14,7 +14,7 @@ const categoriesData = [
     { id: "cat-rocador", name: "Roçador", icon: "🌿" }
 ];
 
-// DATA STORE DE SERVIÇOS (Sem números visíveis na interface, usando UUID/Slugs internos)
+// DATA STORE DE SERVIÇOS
 const servicesData = [
     // Hidráulico
     { 
@@ -141,11 +141,11 @@ const DOM = {
     detailTitle: document.getElementById('detail-title'),
     detailDescription: document.getElementById('detail-description'),
     btnWhatsapp: document.getElementById('btn-whatsapp'),
-    btnBackCategories: document.getElementById('btn-back-categories'),
-    btnBackList: document.getElementById('btn-back-list')
+    btnCloseList: document.getElementById('btn-close-list'),
+    btnCloseDetail: document.getElementById('btn-close-detail')
 };
 
-// HELPER: Busca por ID na estrutura
+// HELPERS
 const getCategoryById = (id) => categoriesData.find(c => c.id === id);
 const getServiceById = (id) => servicesData.find(s => s.id === id);
 
@@ -157,11 +157,10 @@ function init() {
 
 // EVENT LISTENERS
 function setupEventListeners() {
-    DOM.btnBackCategories.addEventListener('click', () => showView('view-categories'));
-    DOM.btnBackList.addEventListener('click', backToList);
+    DOM.btnCloseList.addEventListener('click', closeToCategories);
+    DOM.btnCloseDetail.addEventListener('click', closeToCategories);
     DOM.searchInput.addEventListener('input', handleSearch);
 
-    // Fechar sugestões de busca ao clicar fora
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.search-container')) {
             DOM.suggestionsBox.style.display = 'none';
@@ -169,7 +168,7 @@ function setupEventListeners() {
     });
 }
 
-// RENDERIZAR CATEGORIAS DA API/DATASTORE
+// RENDERIZAR CATEGORIAS EM CARDS HORIZONTAIS
 function renderCategories() {
     DOM.categoriesGrid.innerHTML = '';
     categoriesData.forEach(cat => {
@@ -178,7 +177,7 @@ function renderCategories() {
         div.onclick = () => openCategory(cat.id);
         div.innerHTML = `
             <div class="icon">${cat.icon}</div>
-            <div style="font-weight: 600;">${cat.name}</div>
+            <div class="cat-name">${cat.name}</div>
         `;
         DOM.categoriesGrid.appendChild(div);
     });
@@ -189,9 +188,13 @@ function showView(viewId) {
     document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
     document.getElementById(viewId).classList.add('active');
     
-    // Reseta campo de busca e sugestões
     DOM.searchInput.value = '';
     DOM.suggestionsBox.style.display = 'none';
+}
+
+function closeToCategories() {
+    currentCategoryId = null;
+    showView('view-categories');
 }
 
 // NAVEGAÇÃO DE CATEGORIAS
@@ -220,16 +223,7 @@ function openCategory(categoryId) {
     showView('view-service-list');
 }
 
-// VOLTAR DA TELA DE DETALHES
-function backToList() {
-    if (currentCategoryId) {
-        showView('view-service-list');
-    } else {
-        showView('view-categories');
-    }
-}
-
-// ABRIR DETALHE DO SERVIÇO (Sem exibir números na interface)
+// ABRIR DETALHE DO SERVIÇO
 function openService(serviceId) {
     const service = getServiceById(serviceId);
     if (!service) return;
@@ -240,14 +234,13 @@ function openService(serviceId) {
     DOM.detailTitle.textContent = service.title;
     DOM.detailDescription.textContent = service.desc;
 
-    // Link do WhatsApp com nome do serviço e categoria
     const textWs = `Olá! Gostaria de solicitar um orçamento para o serviço *${service.title}* (${category ? category.name : ''}).`;
     DOM.btnWhatsapp.href = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(textWs)}`;
 
     showView('view-service-detail');
 }
 
-// LOGICA DE PESQUISA REPENSADA (Busca por título, descrição e tags relacionais)
+// PESQUISA
 function handleSearch(e) {
     const rawQuery = e.target.value.toLowerCase().trim();
     DOM.suggestionsBox.innerHTML = '';
@@ -257,7 +250,6 @@ function handleSearch(e) {
         return;
     }
 
-    // Normalização básica de termos de busca
     const query = rawQuery.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
     const matches = servicesData.filter(service => {
