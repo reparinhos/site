@@ -181,7 +181,7 @@ header {
 
 .how-it-works-img {
     width: 100%;
-    max-width: 140px;
+    max-width: 180px;
     height: auto;
     object-fit: contain;
 }
@@ -234,7 +234,7 @@ header {
 
 .section-subtitle {
     margin-bottom: 14px;
-    font-size: 1.80rem;
+    font-size: 1.2rem;
     font-weight: 700;
     color: var(--primary);
 }
