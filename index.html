@@ -9,10 +9,10 @@
 <body>
 
     <div id="app">
-        <!-- HEADER FIXO -->
+        <!-- HEADER (Agora não é mais fixo, rola com a página) -->
         <header>
             <div class="header-top">
-                <h1 class="header-title">Resolva em 1 Dia</h1>
+                <h1 class="header-title">Resolve 1 Dia</h1>
                 <img src="logo.png" alt="Logo" class="header-logo">
             </div>
             <div class="search-container">
@@ -22,48 +22,165 @@
             </div>
         </header>
 
-        <!-- TELA 1: CATEGORIAS -->
+        <!-- TELA 1: CATEGORIAS E SEÇÕES PRINCIPAIS -->
         <main id="view-categories" class="view active">
             
             <!-- SEÇÃO: COMO FUNCIONA -->
             <section class="how-it-works-card">
                 <h3 class="how-it-works-title">Como Funciona</h3>
                 <div class="how-it-works-body">
-                    <!-- Esquerda: Imagem -->
                     <div class="how-it-works-left">
                         <img src="logo.png" alt="Logo Resolve 1 Dia" class="how-it-works-img">
                     </div>
                     
-                    <!-- Direita: Passos Verticais -->
                     <div class="how-it-works-right">
                         <div class="step-item">
                             <div class="step-badge">1</div>
                             <div class="step-content">
-                                <strong>Selecione</strong> <br>o serviço<br> desejado
+                                <strong>Selecione</strong> o serviço desejado
                             </div>
                         </div>
                         <div class="step-line"></div>
                         <div class="step-item">
                             <div class="step-badge">2</div>
                             <div class="step-content">
-                                <strong>Solicite</strong> seu<br> orçamento <br>rápido
+                                <strong>Solicite</strong> seu orçamento rápido
                             </div>
                         </div>
                         <div class="step-line"></div>
                         <div class="step-item">
                             <div class="step-badge">3</div>
                             <div class="step-content">
-                                <strong>Agende</strong> <br>seu serviço<br> e pronto!
+                                <strong>Agende</strong> seu serviço e pronto!
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
+            <!-- CATEGORIAS -->
             <h2 class="section-subtitle">Selecione o profissional:</h2>
             <div class="grid" id="categories-grid">
                 <!-- Gerado dinamicamente via JS -->
             </div>
+
+            <!-- SEÇÃO: ANTES & DEPOIS (CARROSSEL) -->
+            <section class="portfolio-section">
+                <h2 class="section-subtitle">Antes & Depois dos Serviços</h2>
+                <div class="carousel-container">
+                    
+                    <!-- ITEM 1: FOTO -->
+                    <div class="carousel-card">
+                        <div class="media-container">
+                            <span class="badge-tag">Foto</span>
+                            <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=500&q=80" alt="Troca de Torneira">
+                        </div>
+                        <div class="card-info">
+                            <h4>Troca de Torneira</h4>
+                            <p>Hidráulico • Sem vazamentos</p>
+                        </div>
+                    </div>
+
+                    <!-- ITEM 2: FOTO -->
+                    <div class="carousel-card">
+                        <div class="media-container">
+                            <span class="badge-tag">Foto</span>
+                            <img src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=500&q=80" alt="Pintura de Parede">
+                        </div>
+                        <div class="card-info">
+                            <h4>Pintura de Sala</h4>
+                            <p>Pintor • Acabamento perfeito</p>
+                        </div>
+                    </div>
+
+                    <!-- ITEM 3: VÍDEO -->
+                    <div class="carousel-card">
+                        <div class="media-container">
+                            <span class="badge-tag video-tag">Vídeo 🎥</span>
+                            <video controls poster="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=500&q=80" preload="metadata">
+                                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                                Seu navegador não suporta vídeos.
+                            </video>
+                        </div>
+                        <div class="card-info">
+                            <h4>Roçada de Terreno</h4>
+                            <p>Roçador • Limpeza completa</p>
+                        </div>
+                    </div>
+
+                    <!-- ITEM 4: FOTO -->
+                    <div class="carousel-card">
+                        <div class="media-container">
+                            <span class="badge-tag">Foto</span>
+                            <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=500&q=80" alt="Limpeza de Azulejo">
+                        </div>
+                        <div class="card-info">
+                            <h4>Desengorduramento</h4>
+                            <p>Limpeza • Brilho renovado</p>
+                        </div>
+                    </div>
+
+                    <!-- ITEM 5: VÍDEO -->
+                    <div class="carousel-card">
+                        <div class="media-container">
+                            <span class="badge-tag video-tag">Vídeo 🎥</span>
+                            <video controls poster="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=500&q=80" preload="metadata">
+                                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                                Seu navegador não suporta vídeos.
+                            </video>
+                        </div>
+                        <div class="card-info">
+                            <h4>Cimento Queimado</h4>
+                            <p>Pintor • Aplicação moderna</p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SEÇÃO: DEPOIMENTOS -->
+            <section class="testimonials-section">
+                <h2 class="section-subtitle">O que dizem nossos clientes</h2>
+                <div class="carousel-container">
+                    
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p class="testimonial-text">"Serviço rápido e impecável! O encanador resolveu o vazamento da pia em menos de 1 hora. Recomendo muito!"</p>
+                        <h4 class="testimonial-author">- Maria Clara Silva</h4>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p class="testimonial-text">"Contratei para trocar a fiação e as tomadas. O eletricista foi muito educado, limpo e profissional."</p>
+                        <h4 class="testimonial-author">- Roberto Mendes</h4>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p class="testimonial-text">"Minha parede com cimento queimado ficou simplesmente perfeita! Deu outra cara para a minha sala."</p>
+                        <h4 class="testimonial-author">- Fernanda Souza</h4>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p class="testimonial-text">"Precisava limpar o terreno urgente antes do fim de semana. O roçador chegou no horário e deixou tudo impecável."</p>
+                        <h4 class="testimonial-author">- Carlos Eduardo</h4>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p class="testimonial-text">"Limpeza super detalhada! Meus azulejos da cozinha ficaram parecendo novos depois do desengorduramento."</p>
+                        <h4 class="testimonial-author">- Juliana Costa</h4>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- FOOTER -->
+            <footer class="app-footer">
+                Feito com <span class="heart">❤️</span> em Itaboraí
+            </footer>
+
         </main>
 
         <!-- TELA 2: LISTA DE SERVIÇOS DA CATEGORIA -->
