@@ -84,7 +84,7 @@ header {
     font-size: 0.95rem;
     outline: none;
     background-color: var(--accent);
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--primary);
 }
 
 #search-input::placeholder {
