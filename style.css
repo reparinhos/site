@@ -84,11 +84,11 @@ header {
     font-size: 0.95rem;
     outline: none;
     background-color: var(--accent);
-    color: #ffffff;
+    color: rgba(255, 255, 255, 0.9);
 }
 
 #search-input::placeholder {
-    color: rgba(255, 255, 255, 0.9);
+    color: #ffffff;
 }
 
 #search-suggestions {
