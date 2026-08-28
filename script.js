@@ -1,27 +1,30 @@
-// CONFIGURAÇÕES GERAIS
+// ==========================================================================
+// RESOLVEAÍ - LÓGICA COMPLETA DA APLICAÇÃO
+// ==========================================================================
+
 const CONFIG = {
-    whatsappNumber: "5521999999999", // Atualize com o WhatsApp real (DDD 21)
+    whatsappNumber: "5521999999999", // Número para receber os orçamentos no WhatsApp
     minSearchLength: 2
 };
 
-// DATA STORE DE CATEGORIAS
+// BANCO DE DADOS DE CATEGORIAS
 const categoriesData = [
     { id: "cat-hidraulico", name: "Hidráulico", icon: "💧" },
     { id: "cat-eletrico", name: "Elétrico", icon: "⚡" },
     { id: "cat-pintor", name: "Pintor", icon: "🎨" },
     { id: "cat-pedreiro", name: "Pedreiro", icon: "🧱" },
     { id: "cat-limpeza", name: "Auxiliar de Limpeza", icon: "🧹" },
-    { id: "cat-rocador", name: "Roçador", icon: "🌿" }
+    { id: "cat-rocador", name: "Roçador & Jardinagem", icon: "🌿" }
 ];
 
-// DATA STORE DE SERVIÇOS
+// BANCO DE DADOS DE SERVIÇOS (COM IMAGENS)
 const servicesData = [
     // Hidráulico
     { 
         id: "srv-hid-01", 
         categoryId: "cat-hidraulico", 
         title: "Troca de reparo de torneiras", 
-        desc: "Fim do 'pinga-pinga'. Substituição rápida das borrachas e vedantes de torneiras e registros de gaveta ou pressão.",
+        desc: "Fim do 'pinga-pinga'. Substituição rápida de vedantes, reparos de gaveta e estanqueidade de torneiras de cozinha e banheiro.",
         image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80",
         keywords: ["torneira", "vazamento", "pingando", "vedante", "registro"]
     },
@@ -29,7 +32,7 @@ const servicesData = [
         id: "srv-hid-02", 
         categoryId: "cat-hidraulico", 
         title: "Instalação de vaso sanitário", 
-        desc: "Remoção do vaso antigo, instalação do novo (com caixa acoplada ou válvula) garantindo a vedação perfeita com anel de cera.",
+        desc: "Instalação completa de vaso sanitário com caixa acoplada, incluindo vedação com anel de cera e fixação no piso.",
         image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80",
         keywords: ["privada", "banheiro", "caixa acoplada", "sanitário"]
     },
@@ -37,7 +40,7 @@ const servicesData = [
         id: "srv-hid-03", 
         categoryId: "cat-hidraulico", 
         title: "Instalação de chuveiro elétrico", 
-        desc: "Instalação segura do chuveiro, verificação da fiação imediata e testes de vazão.",
+        desc: "Fixação e instalação segura de chuveiro ou ducha, verificação de fiação e testes de vazão de água.",
         image: "https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=600&q=80",
         keywords: ["chuveiro", "ducha", "banho", "esquentando"]
     },
@@ -47,7 +50,7 @@ const servicesData = [
         id: "srv-ele-01", 
         categoryId: "cat-eletrico", 
         title: "Substituição de espelhos e tomadas", 
-        desc: "Troca do acabamento e miolo de tomadas antigas para o novo padrão brasileiro, garantindo segurança.",
+        desc: "Troca de módulos e espelhos velhos por modelos novos do padrão brasileiro, garantindo segurança contra choques e curtos.",
         image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80",
         keywords: ["tomada", "espelho", "choque", "padrão novo", "interruptor"]
     },
@@ -55,7 +58,7 @@ const servicesData = [
         id: "srv-ele-02", 
         categoryId: "cat-eletrico", 
         title: "Instalação de ventilador de teto", 
-        desc: "Montagem mecânica, fixação no teto e ligação elétrica completa do motor e lâmpadas do ventilador.",
+        desc: "Montagem mecânica das pás, fixação segura no teto e ligação da chave de controle do ventilador e lâmpada.",
         image: "https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=600&q=80",
         keywords: ["ventilador", "teto", "calor", "ar"]
     },
@@ -65,15 +68,15 @@ const servicesData = [
         id: "srv-pin-01", 
         categoryId: "cat-pintor", 
         title: "Pintura de paredes internas", 
-        desc: "Emassamento leve de furos de prego, lixamento e duas demãos de tinta látex ou acrílica no cômodo.",
+        desc: "Preparo da superfície com emassamento de furos, lixamento e duas demãos de tinta acrílica no tom desejado.",
         image: "https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=600&q=80",
         keywords: ["parede", "tinta", "quarto", "sala", "massa corrida"]
     },
     { 
         id: "srv-pin-02", 
         categoryId: "cat-pintor", 
-        title: "Aplicação de efeito cimento queimado", 
-        desc: "Preparo da parede e aplicação de massa específica de cimento queimado para criar uma parede de destaque moderna.",
+        title: "Efeito Cimento Queimado", 
+        desc: "Aplicação de textura decorativa estilo cimento queimado para destacar ambientes modernos.",
         image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80",
         keywords: ["cimento queimado", "textura", "decorativa", "parede de destaque"]
     },
@@ -82,16 +85,16 @@ const servicesData = [
     { 
         id: "srv-ped-01", 
         categoryId: "cat-pedreiro", 
-        title: "Substituição de azulejos trincados ou soltos", 
-        desc: "Remoção cuidadosa das peças estufadas ou quebradas, preparo do cimento cola e assentamento de peças de reposição.",
+        title: "Troca de azulejos e cerâmicas", 
+        desc: "Remoção de peças quebradas ou estufadas, limpeza do piso/parede e recolocação com argamassa apropriada.",
         image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=600&q=80",
         keywords: ["azulejo", "piso", "cerâmica", "porcelanato", "trincado"]
     },
     { 
         id: "srv-ped-02", 
         categoryId: "cat-pedreiro", 
-        title: "Chumbamento de ganchos de rede", 
-        desc: "Perfuração da alvenaria e fixação reforçada com cimento estrutural para garantir total segurança ao deitar na rede.",
+        title: "Instalação de ganchos de rede", 
+        desc: "Furação e chumbamento resistente de ganchos na alvenaria para sustentação de redes com máxima segurança.",
         image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80",
         keywords: ["gancho", "rede", "chumbar", "parede", "furo"]
     },
@@ -100,136 +103,135 @@ const servicesData = [
     { 
         id: "srv-lim-01", 
         categoryId: "cat-limpeza", 
-        title: "Desengorduramento pesado de azulejos", 
-        desc: "Aplicação de produtos específicos para derreter gordura acumulada nas paredes da cozinha e ao redor do fogão.",
+        title: "Limpeza pesada de azulejos e engordurados", 
+        desc: "Remoção de gordura impregnada em azulejos de cozinha, exaustores e superfícies engorduradas.",
         image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=600&q=80",
         keywords: ["gordura", "cozinha", "fogão", "azulejo", "limpeza pesada"]
     },
     { 
         id: "srv-lim-02", 
         categoryId: "cat-limpeza", 
-        title: "Limpeza detalhada de interruptores e rodapés", 
-        desc: "Higienização minuciosa e manual. Removemos a sujeira encardida, marcas de dedo em espelhos de tomada e o pó acumulado em rodapés por toda a casa.",
+        title: "Limpeza de interruptores e rodapés", 
+        desc: "Higienização detalhada de pontos encardidos, marcas de dedo e poeira acumulada em rodapés.",
         image: "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&w=600&q=80",
-        keywords: ["rodapé", "interruptor", "tomada", "encardido", "detalhes", "mão de obra"]
-    },
-    { 
-        id: "srv-lim-03", 
-        categoryId: "cat-limpeza", 
-        title: "Higienização profunda de louças sanitárias", 
-        desc: "Tratamento com produtos desincrustantes para remover manchas amareladas, calcário e bactérias de pias e vasos sanitários.",
-        image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80",
-        keywords: ["vaso", "pia", "banheiro", "desinfecção", "manchas"]
+        keywords: ["rodapé", "interruptor", "tomada", "encardido", "detalhes"]
     },
 
     // Roçador
     { 
         id: "srv-roc-01", 
         categoryId: "cat-rocador", 
-        title: "Roçada de mato alto em terrenos", 
-        desc: "Uso de roçadeira a gasolina para rebaixamento rápido de matagal em quintais médios e pequenos.",
+        title: "Roçada de terrenos e quintais", 
+        desc: "Limpeza de mato alto e vegetação em quintais e terrenos com roçadeira a gasolina.",
         image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=80",
         keywords: ["mato", "terreno", "roçadeira", "quintal", "grama"]
-    },
-    { 
-        id: "srv-roc-02", 
-        categoryId: "cat-rocador", 
-        title: "Pulverização de herbicidas ou inseticidas", 
-        desc: "Aplicação técnica de produtos químicos para controle de pragas no jardim ou contenção de ervas daninhas.",
-        image: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=600&q=80",
-        keywords: ["veneno", "praga", "erva daninha", "jardim", "inseto"]
     }
 ];
 
-// ESTADO DA APLICAÇÃO
+// ESTADO GLOBAL
 let currentCategoryId = null;
 let activeService = null;
 
-// FUNÇÃO PARA PEGAR ELEMENTOS DOM COM SEGURANÇA
-function getDOM() {
-    return {
-        searchInput: document.getElementById('search-input'),
-        suggestionsBox: document.getElementById('search-suggestions'),
-        categoriesGrid: document.getElementById('categories-grid'),
-        servicesUl: document.getElementById('services-ul'),
-        listCategoryTitle: document.getElementById('list-category-title'),
-        detailCategory: document.getElementById('detail-category'),
-        detailTitle: document.getElementById('detail-title'),
-        detailDescription: document.getElementById('detail-description'),
-        detailImageContainer: document.getElementById('detail-image-container'),
-        detailImage: document.getElementById('detail-image'),
-        btnCloseList: document.getElementById('btn-close-list'),
-        btnCloseDetail: document.getElementById('btn-close-detail'),
-        btnOpenForm: document.getElementById('btn-open-form'),
-        modalQuote: document.getElementById('modal-quote'),
-        btnCloseModal: document.getElementById('btn-close-modal'),
-        modalServiceSubtitle: document.getElementById('modal-service-subtitle'),
-        formQuote: document.getElementById('form-quote'),
-        clientName: document.getElementById('client-name'),
-        clientAddress: document.getElementById('client-address'),
-        clientBairro: document.getElementById('client-bairro'),
-        clientNotes: document.getElementById('client-notes')
-    };
-}
-
+// HELPERS
 const getCategoryById = (id) => categoriesData.find(c => c.id === id);
 const getServiceById = (id) => servicesData.find(s => s.id === id);
 
 // INICIALIZAÇÃO
-function init() {
+document.addEventListener('DOMContentLoaded', () => {
+    initApp();
+});
+
+function initApp() {
     renderCategories();
-    setupEventListeners();
+    bindEvents();
 }
 
-// EVENT LISTENERS
-function setupEventListeners() {
-    const DOM = getDOM();
+// BIND DOS EVENTOS
+function bindEvents() {
+    const brandLogo = document.getElementById('brand-logo');
+    const btnCloseList = document.getElementById('btn-close-list');
+    const btnCloseDetail = document.getElementById('btn-close-detail');
+    const btnOpenForm = document.getElementById('btn-open-form');
+    const btnCloseModal = document.getElementById('btn-close-modal');
+    const modalQuote = document.getElementById('modal-quote');
+    const formQuote = document.getElementById('form-quote');
+    const searchInput = document.getElementById('search-input');
 
-    if (DOM.btnCloseList) DOM.btnCloseList.addEventListener('click', closeToCategories);
-    if (DOM.btnCloseDetail) DOM.btnCloseDetail.addEventListener('click', closeToCategories);
-    if (DOM.searchInput) DOM.searchInput.addEventListener('input', handleSearch);
+    if (brandLogo) brandLogo.addEventListener('click', closeToCategories);
+    if (btnCloseList) btnCloseList.addEventListener('click', closeToCategories);
+    if (btnCloseDetail) btnCloseDetail.addEventListener('click', closeToCategories);
 
-    // Modal Events
-    if (DOM.btnOpenForm) DOM.btnOpenForm.addEventListener('click', openModalForm);
-    if (DOM.btnCloseModal) DOM.btnCloseModal.addEventListener('click', closeModalForm);
-    if (DOM.formQuote) DOM.formQuote.addEventListener('submit', handleFormSubmit);
+    // EVENTO PRINCIPAL: ABRIR O FORMULÁRIO (MODAL)
+    if (btnOpenForm) {
+        btnOpenForm.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModalForm();
+        });
+    }
+
+    // EVENTOS DO MODAL
+    if (btnCloseModal) {
+        btnCloseModal.addEventListener('click', closeModalForm);
+    }
+
+    // Fechar modal clicando fora da caixa
+    if (modalQuote) {
+        modalQuote.addEventListener('click', (e) => {
+            if (e.target === modalQuote) {
+                closeModalForm();
+            }
+        });
+    }
+
+    // SUBMIT DO FORMULÁRIO
+    if (formQuote) {
+        formQuote.addEventListener('submit', handleFormSubmit);
+    }
+
+    // PESQUISA EM TEMPO REAL
+    if (searchInput) {
+        searchInput.addEventListener('input', handleSearch);
+    }
 
     // Fechar sugestões ao clicar fora
     document.addEventListener('click', (e) => {
-        if (!e.target.closest('.search-container') && DOM.suggestionsBox) {
-            DOM.suggestionsBox.style.display = 'none';
+        const searchBox = document.querySelector('.search-container');
+        const suggestionsBox = document.getElementById('search-suggestions');
+        if (searchBox && !searchBox.contains(e.target) && suggestionsBox) {
+            suggestionsBox.style.display = 'none';
         }
     });
 }
 
 // RENDERIZAR CATEGORIAS
 function renderCategories() {
-    const DOM = getDOM();
-    if (!DOM.categoriesGrid) return;
+    const grid = document.getElementById('categories-grid');
+    if (!grid) return;
 
-    DOM.categoriesGrid.innerHTML = '';
+    grid.innerHTML = '';
     categoriesData.forEach(cat => {
-        const div = document.createElement('div');
-        div.className = 'card-category';
-        div.onclick = () => openCategory(cat.id);
-        div.innerHTML = `
+        const card = document.createElement('div');
+        card.className = 'card-category';
+        card.onclick = () => openCategory(cat.id);
+        card.innerHTML = `
             <div class="icon">${cat.icon}</div>
             <div class="cat-name">${cat.name}</div>
         `;
-        DOM.categoriesGrid.appendChild(div);
+        grid.appendChild(card);
     });
 }
 
 // TROCA DE TELAS
 function showView(viewId) {
-    const DOM = getDOM();
-    document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     
-    const targetView = document.getElementById(viewId);
-    if (targetView) targetView.classList.add('active');
-    
-    if (DOM.searchInput) DOM.searchInput.value = '';
-    if (DOM.suggestionsBox) DOM.suggestionsBox.style.display = 'none';
+    const target = document.getElementById(viewId);
+    if (target) {
+        target.classList.add('active');
+    }
+
+    const suggestionsBox = document.getElementById('search-suggestions');
+    if (suggestionsBox) suggestionsBox.style.display = 'none';
 }
 
 function closeToCategories() {
@@ -239,21 +241,21 @@ function closeToCategories() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// NAVEGAÇÃO DE CATEGORIAS
+// NAVEGAÇÃO
 function openCategory(categoryId) {
     currentCategoryId = categoryId;
     const category = getCategoryById(categoryId);
-    const DOM = getDOM();
-    
     if (!category) return;
 
-    if (DOM.listCategoryTitle) DOM.listCategoryTitle.textContent = category.name;
-    
-    const filteredServices = servicesData.filter(s => s.categoryId === categoryId);
-    
-    if (DOM.servicesUl) {
-        DOM.servicesUl.innerHTML = '';
-        filteredServices.forEach(srv => {
+    const listTitle = document.getElementById('list-category-title');
+    if (listTitle) listTitle.textContent = category.name;
+
+    const servicesUl = document.getElementById('services-ul');
+    if (servicesUl) {
+        servicesUl.innerHTML = '';
+        const filtered = servicesData.filter(s => s.categoryId === categoryId);
+
+        filtered.forEach(srv => {
             const li = document.createElement('li');
             li.className = 'service-item';
             li.onclick = () => openService(srv.id);
@@ -261,7 +263,7 @@ function openCategory(categoryId) {
                 <span>${srv.title}</span>
                 <span class="arrow">›</span>
             `;
-            DOM.servicesUl.appendChild(li);
+            servicesUl.appendChild(li);
         });
     }
 
@@ -275,60 +277,69 @@ function openService(serviceId) {
 
     activeService = service;
     const category = getCategoryById(service.categoryId);
-    const DOM = getDOM();
 
-    if (DOM.detailCategory) DOM.detailCategory.textContent = category ? category.name : '';
-    if (DOM.detailTitle) DOM.detailTitle.textContent = service.title;
-    if (DOM.detailDescription) DOM.detailDescription.textContent = service.desc;
+    const detailCategory = document.getElementById('detail-category');
+    const detailTitle = document.getElementById('detail-title');
+    const detailDescription = document.getElementById('detail-description');
+    const detailImage = document.getElementById('detail-image');
+    const detailImageContainer = document.getElementById('detail-image-container');
 
-    // Atualiza a imagem do serviço
-    if (service.image && DOM.detailImage) {
-        DOM.detailImage.src = service.image;
-        if (DOM.detailImageContainer) DOM.detailImageContainer.style.display = 'block';
-    } else {
-        if (DOM.detailImageContainer) DOM.detailImageContainer.style.display = 'none';
+    if (detailCategory) detailCategory.textContent = category ? category.name : '';
+    if (detailTitle) detailTitle.textContent = service.title;
+    if (detailDescription) detailDescription.textContent = service.desc;
+
+    if (service.image && detailImage && detailImageContainer) {
+        detailImage.src = service.image;
+        detailImageContainer.style.display = 'block';
+    } else if (detailImageContainer) {
+        detailImageContainer.style.display = 'none';
     }
 
     showView('view-service-detail');
 }
 
-// ABRIR MODAL DO FORMULÁRIO
+// ABRIR O FORMULÁRIO (MODAL)
 function openModalForm() {
-    if (!activeService) return;
-    const DOM = getDOM();
-    const category = getCategoryById(activeService.categoryId);
-    
-    if (DOM.modalServiceSubtitle) {
-        DOM.modalServiceSubtitle.textContent = `${activeService.title} (${category ? category.name : ''})`;
+    const modalQuote = document.getElementById('modal-quote');
+    const subtitle = document.getElementById('modal-service-subtitle');
+
+    if (activeService && subtitle) {
+        const cat = getCategoryById(activeService.categoryId);
+        subtitle.textContent = `${activeService.title} (${cat ? cat.name : ''})`;
     }
-    
-    if (DOM.modalQuote) {
-        DOM.modalQuote.classList.add('active');
+
+    if (modalQuote) {
+        modalQuote.classList.add('active');
+        document.body.style.overflow = 'hidden';
     }
 }
 
-// FECHAR MODAL DO FORMULÁRIO
+// FECHAR O FORMULÁRIO (MODAL)
 function closeModalForm() {
-    const DOM = getDOM();
-    if (DOM.modalQuote) {
-        DOM.modalQuote.classList.remove('active');
+    const modalQuote = document.getElementById('modal-quote');
+    if (modalQuote) {
+        modalQuote.classList.remove('active');
+        document.body.style.overflow = '';
     }
 }
 
-// ENVIAR FORMULÁRIO PARA O WHATSAPP
+// ENVIAR ORÇAMENTO VIA WHATSAPP
 function handleFormSubmit(e) {
     e.preventDefault();
-    if (!activeService) return;
 
-    const DOM = getDOM();
+    if (!activeService) {
+        alert("Por favor, selecione um serviço primeiro.");
+        return;
+    }
+
+    const name = document.getElementById('client-name').value.trim();
+    const address = document.getElementById('client-address').value.trim();
+    const bairro = document.getElementById('client-bairro').value.trim();
+    const notes = document.getElementById('client-notes').value.trim();
+
     const category = getCategoryById(activeService.categoryId);
 
-    const name = DOM.clientName ? DOM.clientName.value.trim() : '';
-    const address = DOM.clientAddress ? DOM.clientAddress.value.trim() : '';
-    const bairro = DOM.clientBairro ? DOM.clientBairro.value.trim() : '';
-    const notes = DOM.clientNotes ? DOM.clientNotes.value.trim() : '';
-
-    let message = `*NOVA SOLICITAÇÃO DE ORÇAMENTO* 🛠️\n\n`;
+    let message = `*SOLICITAÇÃO DE ORÇAMENTO - RESOLVEAÍ* 🛠️\n\n`;
     message += `*Serviço:* ${activeService.title}\n`;
     message += `*Categoria:* ${category ? category.name : '-'}\n\n`;
     message += `-----------------------------------\n`;
@@ -346,19 +357,22 @@ function handleFormSubmit(e) {
     
     window.open(whatsappUrl, '_blank');
     closeModalForm();
-    if (DOM.formQuote) DOM.formQuote.reset();
+    
+    const form = document.getElementById('form-quote');
+    if (form) form.reset();
 }
 
 // PESQUISA
 function handleSearch(e) {
-    const DOM = getDOM();
     const rawQuery = e.target.value.toLowerCase().trim();
-    if (!DOM.suggestionsBox) return;
+    const suggestionsBox = document.getElementById('search-suggestions');
 
-    DOM.suggestionsBox.innerHTML = '';
+    if (!suggestionsBox) return;
+
+    suggestionsBox.innerHTML = '';
 
     if (rawQuery.length < CONFIG.minSearchLength) {
-        DOM.suggestionsBox.style.display = 'none';
+        suggestionsBox.style.display = 'none';
         return;
     }
 
@@ -387,24 +401,16 @@ function handleSearch(e) {
             `;
             
             div.onclick = () => {
-                DOM.suggestionsBox.style.display = 'none';
-                if (DOM.searchInput) DOM.searchInput.value = '';
-                currentCategoryId = match.categoryId;
+                suggestionsBox.style.display = 'none';
+                document.getElementById('search-input').value = '';
                 openService(match.id);
             };
             
-            DOM.suggestionsBox.appendChild(div);
+            suggestionsBox.appendChild(div);
         });
-        DOM.suggestionsBox.style.display = 'block';
+        suggestionsBox.style.display = 'block';
     } else {
-        DOM.suggestionsBox.style.display = 'block';
-        DOM.suggestionsBox.innerHTML = '<div class="suggestion-item" style="color: var(--text-muted)">Nenhum serviço encontrado.</div>';
+        suggestionsBox.style.display = 'block';
+        suggestionsBox.innerHTML = '<div class="suggestion-item" style="color: var(--text-muted)">Nenhum serviço encontrado.</div>';
     }
-}
-
-// GARANTE QUE O CÓDIGO SÓ RODE QUANDO O HTML ESTIVER TOTALMENTE CARREGADO
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-} else {
-    init();
 }
