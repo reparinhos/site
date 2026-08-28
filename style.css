@@ -31,16 +31,27 @@ body {
     overflow-x: hidden;
 }
 
-/* HEADER (Sem posição fixa) */
+/* HEADER FIXO NO TOPO */
 header {
     background: var(--primary);
     padding: 16px 16px 18px 16px;
-    position: sticky;
+    position: fixed;          /* Trava o topo permanentemente */
     top: 0;
-    z-index: 100;
+    left: 50%;                /* Centraliza dentro do limite do app */
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 600px;         /* Mantém a mesma largura máxima de 600px */
+    z-index: 1000;            /* Garante que fique por cima de tudo ao rolar */
     box-shadow: 0 4px 10px rgba(0,0,0,0.12);
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
+}
+
+/* ESPAÇAMENTO DO CONTEÚDO (Para não cobrir o primeiro card) */
+.view {
+    display: none;
+    padding: 125px 16px 16px 16px; /* 125px no topo empurra o conteúdo para baixo do header fixo */
+    animation: fadeIn 0.3s ease;
 }
 
 .header-top {
