@@ -1,6 +1,6 @@
 // CONFIGURAÇÕES GERAIS
 const CONFIG = {
-    whatsappNumber: "5511999999999",
+    whatsappNumber: "5521999999999", // Atualize com o WhatsApp real (DDD 21 - Itaboraí)
     minSearchLength: 2
 };
 
@@ -14,7 +14,7 @@ const categoriesData = [
     { id: "cat-rocador", name: "Roçador", icon: "🌿" }
 ];
 
-// DATA STORE DE SERVIÇOS
+// DATA STORE DE SERVIÇOS (COM IMAGENS)
 const servicesData = [
     // Hidráulico
     { 
@@ -22,6 +22,7 @@ const servicesData = [
         categoryId: "cat-hidraulico", 
         title: "Troca de reparo de torneiras", 
         desc: "Fim do 'pinga-pinga'. Substituição rápida das borrachas e vedantes de torneiras e registros de gaveta ou pressão.",
+        image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80",
         keywords: ["torneira", "vazamento", "pingando", "vedante", "registro"]
     },
     { 
@@ -29,6 +30,7 @@ const servicesData = [
         categoryId: "cat-hidraulico", 
         title: "Instalação de vaso sanitário", 
         desc: "Remoção do vaso antigo, instalação do novo (com caixa acoplada ou válvula) garantindo a vedação perfeita com anel de cera.",
+        image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80",
         keywords: ["privada", "banheiro", "caixa acoplada", "sanitário"]
     },
     { 
@@ -36,6 +38,7 @@ const servicesData = [
         categoryId: "cat-hidraulico", 
         title: "Instalação de chuveiro elétrico", 
         desc: "Instalação segura do chuveiro, verificação da fiação imediata e testes de vazão.",
+        image: "https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=600&q=80",
         keywords: ["chuveiro", "ducha", "banho", "esquentando"]
     },
 
@@ -45,6 +48,7 @@ const servicesData = [
         categoryId: "cat-eletrico", 
         title: "Substituição de espelhos e tomadas", 
         desc: "Troca do acabamento e miolo de tomadas antigas para o novo padrão brasileiro, garantindo segurança.",
+        image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80",
         keywords: ["tomada", "espelho", "choque", "padrão novo", "interruptor"]
     },
     { 
@@ -52,6 +56,7 @@ const servicesData = [
         categoryId: "cat-eletrico", 
         title: "Instalação de ventilador de teto", 
         desc: "Montagem mecânica, fixação no teto e ligação elétrica completa do motor e lâmpadas do ventilador.",
+        image: "https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=600&q=80",
         keywords: ["ventilador", "teto", "calor", "ar"]
     },
 
@@ -61,6 +66,7 @@ const servicesData = [
         categoryId: "cat-pintor", 
         title: "Pintura de paredes internas", 
         desc: "Emassamento leve de furos de prego, lixamento e duas demãos de tinta látex ou acrílica no cômodo.",
+        image: "https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=600&q=80",
         keywords: ["parede", "tinta", "quarto", "sala", "massa corrida"]
     },
     { 
@@ -68,6 +74,7 @@ const servicesData = [
         categoryId: "cat-pintor", 
         title: "Aplicação de efeito cimento queimado", 
         desc: "Preparo da parede e aplicação de massa específica de cimento queimado para criar uma parede de destaque moderna.",
+        image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80",
         keywords: ["cimento queimado", "textura", "decorativa", "parede de destaque"]
     },
 
@@ -77,6 +84,7 @@ const servicesData = [
         categoryId: "cat-pedreiro", 
         title: "Substituição de azulejos trincados ou soltos", 
         desc: "Remoção cuidadosa das peças estufadas ou quebradas, preparo do cimento cola e assentamento de peças de reposição.",
+        image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=600&q=80",
         keywords: ["azulejo", "piso", "cerâmica", "porcelanato", "trincado"]
     },
     { 
@@ -84,6 +92,7 @@ const servicesData = [
         categoryId: "cat-pedreiro", 
         title: "Chumbamento de ganchos de rede", 
         desc: "Perfuração da alvenaria e fixação reforçada com cimento estrutural para garantir total segurança ao deitar na rede.",
+        image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80",
         keywords: ["gancho", "rede", "chumbar", "parede", "furo"]
     },
 
@@ -93,6 +102,7 @@ const servicesData = [
         categoryId: "cat-limpeza", 
         title: "Desengorduramento pesado de azulejos", 
         desc: "Aplicação de produtos específicos para derreter gordura acumulada nas paredes da cozinha e ao redor do fogão.",
+        image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=600&q=80",
         keywords: ["gordura", "cozinha", "fogão", "azulejo", "limpeza pesada"]
     },
     { 
@@ -100,6 +110,7 @@ const servicesData = [
         categoryId: "cat-limpeza", 
         title: "Limpeza detalhada de interruptores e rodapés", 
         desc: "Higienização minuciosa e manual. Removemos a sujeira encardida, marcas de dedo em espelhos de tomada e o pó acumulado em rodapés por toda a casa.",
+        image: "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&w=600&q=80",
         keywords: ["rodapé", "interruptor", "tomada", "encardido", "detalhes", "mão de obra"]
     },
     { 
@@ -107,6 +118,7 @@ const servicesData = [
         categoryId: "cat-limpeza", 
         title: "Higienização profunda de louças sanitárias", 
         desc: "Tratamento com produtos desincrustantes para remover manchas amareladas, calcário e bactérias de pias e vasos sanitários.",
+        image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80",
         keywords: ["vaso", "pia", "banheiro", "desinfecção", "manchas"]
     },
 
@@ -116,6 +128,7 @@ const servicesData = [
         categoryId: "cat-rocador", 
         title: "Roçada de mato alto em terrenos", 
         desc: "Uso de roçadeira a gasolina para rebaixamento rápido de matagal em quintais médios e pequenos.",
+        image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=80",
         keywords: ["mato", "terreno", "roçadeira", "quintal", "grama"]
     },
     { 
@@ -123,12 +136,14 @@ const servicesData = [
         categoryId: "cat-rocador", 
         title: "Pulverização de herbicidas ou inseticidas", 
         desc: "Aplicação técnica de produtos químicos para controle de pragas no jardim ou contenção de ervas daninhas.",
+        image: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=600&q=80",
         keywords: ["veneno", "praga", "erva daninha", "jardim", "inseto"]
     }
 ];
 
 // ESTADO DA APLICAÇÃO
 let currentCategoryId = null;
+let activeService = null;
 
 // ELEMENTOS DOM
 const DOM = {
@@ -140,9 +155,21 @@ const DOM = {
     detailCategory: document.getElementById('detail-category'),
     detailTitle: document.getElementById('detail-title'),
     detailDescription: document.getElementById('detail-description'),
-    btnWhatsapp: document.getElementById('btn-whatsapp'),
+    detailImageContainer: document.getElementById('detail-image-container'),
+    detailImage: document.getElementById('detail-image'),
     btnCloseList: document.getElementById('btn-close-list'),
-    btnCloseDetail: document.getElementById('btn-close-detail')
+    btnCloseDetail: document.getElementById('btn-close-detail'),
+    
+    // MODAL E FORMULÁRIO
+    btnOpenForm: document.getElementById('btn-open-form'),
+    modalQuote: document.getElementById('modal-quote'),
+    btnCloseModal: document.getElementById('btn-close-modal'),
+    modalServiceSubtitle: document.getElementById('modal-service-subtitle'),
+    formQuote: document.getElementById('form-quote'),
+    clientName: document.getElementById('client-name'),
+    clientAddress: document.getElementById('client-address'),
+    clientBairro: document.getElementById('client-bairro'),
+    clientNotes: document.getElementById('client-notes')
 };
 
 // HELPERS
@@ -162,6 +189,12 @@ function setupEventListeners() {
     DOM.btnCloseDetail.addEventListener('click', closeToCategories);
     DOM.searchInput.addEventListener('input', handleSearch);
 
+    // Modal Events
+    DOM.btnOpenForm.addEventListener('click', openModalForm);
+    DOM.btnCloseModal.addEventListener('click', closeModalForm);
+    DOM.formQuote.addEventListener('submit', handleFormSubmit);
+
+    // Fechar sugestões ao clicar fora
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.search-container')) {
             DOM.suggestionsBox.style.display = 'none';
@@ -169,10 +202,9 @@ function setupEventListeners() {
     });
 }
 
-// LÓGICA DE ARRASTE PARA TODOS OS CARROSSEIS (PORTFÓLIO E DEPOIMENTOS)
+// ARRASTE NOS CARROSSEIS
 function setupCarouselsDrag() {
     const sliders = document.querySelectorAll('.carousel-container');
-    
     if (!sliders.length) return;
 
     sliders.forEach(slider => {
@@ -201,7 +233,7 @@ function setupCarouselsDrag() {
             if (!isDown) return;
             e.preventDefault();
             const x = e.pageX - slider.offsetLeft;
-            const walk = (x - startX) * 1.5; // Velocidade de rolagem
+            const walk = (x - startX) * 1.5;
             slider.scrollLeft = scrollLeft - walk;
         });
     });
@@ -233,9 +265,8 @@ function showView(viewId) {
 
 function closeToCategories() {
     currentCategoryId = null;
+    activeService = null;
     showView('view-categories');
-    
-    // Rola para o topo ao voltar para a home, garantindo que o header fique visível
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -265,21 +296,73 @@ function openCategory(categoryId) {
     showView('view-service-list');
 }
 
-// ABRIR DETALHE DO SERVIÇO
+// ABRIR DETALHE DO SERVIÇO (CARREGA A IMAGEM DINAMICAMENTE)
 function openService(serviceId) {
     const service = getServiceById(serviceId);
     if (!service) return;
 
+    activeService = service;
     const category = getCategoryById(service.categoryId);
 
     DOM.detailCategory.textContent = category ? category.name : '';
     DOM.detailTitle.textContent = service.title;
     DOM.detailDescription.textContent = service.desc;
 
-    const textWs = `Olá! Gostaria de solicitar um orçamento para o serviço *${service.title}* (${category ? category.name : ''}).`;
-    DOM.btnWhatsapp.href = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(textWs)}`;
+    // Atualiza a imagem do serviço
+    if (service.image) {
+        DOM.detailImage.src = service.image;
+        DOM.detailImageContainer.style.display = 'block';
+    } else {
+        DOM.detailImageContainer.style.display = 'none';
+    }
 
     showView('view-service-detail');
+}
+
+// LÓGICA DO MODAL DE ORÇAMENTO
+function openModalForm() {
+    if (!activeService) return;
+    const category = getCategoryById(activeService.categoryId);
+    
+    DOM.modalServiceSubtitle.textContent = `${activeService.title} (${category ? category.name : ''})`;
+    DOM.modalQuote.classList.add('active');
+}
+
+function closeModalForm() {
+    DOM.modalQuote.classList.remove('active');
+}
+
+// MONTAGEM DA MENSAGEM DO WHATSAPP
+function handleFormSubmit(e) {
+    e.preventDefault();
+
+    if (!activeService) return;
+    const category = getCategoryById(activeService.categoryId);
+
+    const name = DOM.clientName.value.trim();
+    const address = DOM.clientAddress.value.trim();
+    const bairro = DOM.clientBairro.value.trim();
+    const notes = DOM.clientNotes.value.trim();
+
+    let message = `*NOVA SOLICITAÇÃO DE ORÇAMENTO* 🛠️\n\n`;
+    message += `*Serviço:* ${activeService.title}\n`;
+    message += `*Categoria:* ${category ? category.name : '-'}\n\n`;
+    message += `-----------------------------------\n`;
+    message += `👤 *Nome:* ${name}\n`;
+    message += `📍 *Endereço:* ${address}\n`;
+    message += `🏘️ *Bairro:* ${bairro}\n`;
+    
+    if (notes) {
+        message += `📝 *Observações:* ${notes}\n`;
+    }
+    
+    message += `-----------------------------------`;
+
+    const whatsappUrl = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+    
+    window.open(whatsappUrl, '_blank');
+    closeModalForm();
+    DOM.formQuote.reset();
 }
 
 // PESQUISA
