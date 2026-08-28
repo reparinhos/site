@@ -7,7 +7,7 @@
     --text-main: #1e293b;
     --text-muted: #64748b;
     --border: #e2e8f0;
-    --secundary: #0a3871;
+    --secundary: #e85d04;
 }
 
 * {
@@ -100,7 +100,7 @@ header {
 }
 
 #search-input::placeholder {
-    color: #e85d04;
+    color: var(--secundary);
 }
 
 #search-suggestions {
