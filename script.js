@@ -1,6 +1,6 @@
 // CONFIGURAÇÕES GERAIS
 const CONFIG = {
-    whatsappNumber: "5521999999999", // Atualize com o WhatsApp real (DDD 21 - Itaboraí)
+    whatsappNumber: "5521999999999", // Atualize com o WhatsApp real (DDD 21)
     minSearchLength: 2
 };
 
@@ -14,7 +14,7 @@ const categoriesData = [
     { id: "cat-rocador", name: "Roçador", icon: "🌿" }
 ];
 
-// DATA STORE DE SERVIÇOS (COM IMAGENS)
+// DATA STORE DE SERVIÇOS
 const servicesData = [
     // Hidráulico
     { 
@@ -145,34 +145,33 @@ const servicesData = [
 let currentCategoryId = null;
 let activeService = null;
 
-// ELEMENTOS DOM
-const DOM = {
-    searchInput: document.getElementById('search-input'),
-    suggestionsBox: document.getElementById('search-suggestions'),
-    categoriesGrid: document.getElementById('categories-grid'),
-    servicesUl: document.getElementById('services-ul'),
-    listCategoryTitle: document.getElementById('list-category-title'),
-    detailCategory: document.getElementById('detail-category'),
-    detailTitle: document.getElementById('detail-title'),
-    detailDescription: document.getElementById('detail-description'),
-    detailImageContainer: document.getElementById('detail-image-container'),
-    detailImage: document.getElementById('detail-image'),
-    btnCloseList: document.getElementById('btn-close-list'),
-    btnCloseDetail: document.getElementById('btn-close-detail'),
-    
-    // MODAL E FORMULÁRIO
-    btnOpenForm: document.getElementById('btn-open-form'),
-    modalQuote: document.getElementById('modal-quote'),
-    btnCloseModal: document.getElementById('btn-close-modal'),
-    modalServiceSubtitle: document.getElementById('modal-service-subtitle'),
-    formQuote: document.getElementById('form-quote'),
-    clientName: document.getElementById('client-name'),
-    clientAddress: document.getElementById('client-address'),
-    clientBairro: document.getElementById('client-bairro'),
-    clientNotes: document.getElementById('client-notes')
-};
+// FUNÇÃO PARA PEGAR ELEMENTOS DOM COM SEGURANÇA
+function getDOM() {
+    return {
+        searchInput: document.getElementById('search-input'),
+        suggestionsBox: document.getElementById('search-suggestions'),
+        categoriesGrid: document.getElementById('categories-grid'),
+        servicesUl: document.getElementById('services-ul'),
+        listCategoryTitle: document.getElementById('list-category-title'),
+        detailCategory: document.getElementById('detail-category'),
+        detailTitle: document.getElementById('detail-title'),
+        detailDescription: document.getElementById('detail-description'),
+        detailImageContainer: document.getElementById('detail-image-container'),
+        detailImage: document.getElementById('detail-image'),
+        btnCloseList: document.getElementById('btn-close-list'),
+        btnCloseDetail: document.getElementById('btn-close-detail'),
+        btnOpenForm: document.getElementById('btn-open-form'),
+        modalQuote: document.getElementById('modal-quote'),
+        btnCloseModal: document.getElementById('btn-close-modal'),
+        modalServiceSubtitle: document.getElementById('modal-service-subtitle'),
+        formQuote: document.getElementById('form-quote'),
+        clientName: document.getElementById('client-name'),
+        clientAddress: document.getElementById('client-address'),
+        clientBairro: document.getElementById('client-bairro'),
+        clientNotes: document.getElementById('client-notes')
+    };
+}
 
-// HELPERS
 const getCategoryById = (id) => categoriesData.find(c => c.id === id);
 const getServiceById = (id) => servicesData.find(s => s.id === id);
 
@@ -180,67 +179,34 @@ const getServiceById = (id) => servicesData.find(s => s.id === id);
 function init() {
     renderCategories();
     setupEventListeners();
-    setupCarouselsDrag();
 }
 
 // EVENT LISTENERS
 function setupEventListeners() {
-    DOM.btnCloseList.addEventListener('click', closeToCategories);
-    DOM.btnCloseDetail.addEventListener('click', closeToCategories);
-    DOM.searchInput.addEventListener('input', handleSearch);
+    const DOM = getDOM();
+
+    if (DOM.btnCloseList) DOM.btnCloseList.addEventListener('click', closeToCategories);
+    if (DOM.btnCloseDetail) DOM.btnCloseDetail.addEventListener('click', closeToCategories);
+    if (DOM.searchInput) DOM.searchInput.addEventListener('input', handleSearch);
 
     // Modal Events
-    DOM.btnOpenForm.addEventListener('click', openModalForm);
-    DOM.btnCloseModal.addEventListener('click', closeModalForm);
-    DOM.formQuote.addEventListener('submit', handleFormSubmit);
+    if (DOM.btnOpenForm) DOM.btnOpenForm.addEventListener('click', openModalForm);
+    if (DOM.btnCloseModal) DOM.btnCloseModal.addEventListener('click', closeModalForm);
+    if (DOM.formQuote) DOM.formQuote.addEventListener('submit', handleFormSubmit);
 
     // Fechar sugestões ao clicar fora
     document.addEventListener('click', (e) => {
-        if (!e.target.closest('.search-container')) {
+        if (!e.target.closest('.search-container') && DOM.suggestionsBox) {
             DOM.suggestionsBox.style.display = 'none';
         }
     });
 }
 
-// ARRASTE NOS CARROSSEIS
-function setupCarouselsDrag() {
-    const sliders = document.querySelectorAll('.carousel-container');
-    if (!sliders.length) return;
-
-    sliders.forEach(slider => {
-        let isDown = false;
-        let startX;
-        let scrollLeft;
-
-        slider.addEventListener('mousedown', (e) => {
-            isDown = true;
-            slider.classList.add('active-drag');
-            startX = e.pageX - slider.offsetLeft;
-            scrollLeft = slider.scrollLeft;
-        });
-
-        slider.addEventListener('mouseleave', () => {
-            isDown = false;
-            slider.classList.remove('active-drag');
-        });
-
-        slider.addEventListener('mouseup', () => {
-            isDown = false;
-            slider.classList.remove('active-drag');
-        });
-
-        slider.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - slider.offsetLeft;
-            const walk = (x - startX) * 1.5;
-            slider.scrollLeft = scrollLeft - walk;
-        });
-    });
-}
-
 // RENDERIZAR CATEGORIAS
 function renderCategories() {
+    const DOM = getDOM();
+    if (!DOM.categoriesGrid) return;
+
     DOM.categoriesGrid.innerHTML = '';
     categoriesData.forEach(cat => {
         const div = document.createElement('div');
@@ -256,11 +222,14 @@ function renderCategories() {
 
 // TROCA DE TELAS
 function showView(viewId) {
+    const DOM = getDOM();
     document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
-    document.getElementById(viewId).classList.add('active');
     
-    DOM.searchInput.value = '';
-    DOM.suggestionsBox.style.display = 'none';
+    const targetView = document.getElementById(viewId);
+    if (targetView) targetView.classList.add('active');
+    
+    if (DOM.searchInput) DOM.searchInput.value = '';
+    if (DOM.suggestionsBox) DOM.suggestionsBox.style.display = 'none';
 }
 
 function closeToCategories() {
@@ -274,75 +243,90 @@ function closeToCategories() {
 function openCategory(categoryId) {
     currentCategoryId = categoryId;
     const category = getCategoryById(categoryId);
+    const DOM = getDOM();
     
     if (!category) return;
 
-    DOM.listCategoryTitle.textContent = category.name;
+    if (DOM.listCategoryTitle) DOM.listCategoryTitle.textContent = category.name;
     
     const filteredServices = servicesData.filter(s => s.categoryId === categoryId);
     
-    DOM.servicesUl.innerHTML = '';
-    filteredServices.forEach(srv => {
-        const li = document.createElement('li');
-        li.className = 'service-item';
-        li.onclick = () => openService(srv.id);
-        li.innerHTML = `
-            <span>${srv.title}</span>
-            <span class="arrow">›</span>
-        `;
-        DOM.servicesUl.appendChild(li);
-    });
+    if (DOM.servicesUl) {
+        DOM.servicesUl.innerHTML = '';
+        filteredServices.forEach(srv => {
+            const li = document.createElement('li');
+            li.className = 'service-item';
+            li.onclick = () => openService(srv.id);
+            li.innerHTML = `
+                <span>${srv.title}</span>
+                <span class="arrow">›</span>
+            `;
+            DOM.servicesUl.appendChild(li);
+        });
+    }
 
     showView('view-service-list');
 }
 
-// ABRIR DETALHE DO SERVIÇO (CARREGA A IMAGEM DINAMICAMENTE)
+// ABRIR DETALHE DO SERVIÇO
 function openService(serviceId) {
     const service = getServiceById(serviceId);
     if (!service) return;
 
     activeService = service;
     const category = getCategoryById(service.categoryId);
+    const DOM = getDOM();
 
-    DOM.detailCategory.textContent = category ? category.name : '';
-    DOM.detailTitle.textContent = service.title;
-    DOM.detailDescription.textContent = service.desc;
+    if (DOM.detailCategory) DOM.detailCategory.textContent = category ? category.name : '';
+    if (DOM.detailTitle) DOM.detailTitle.textContent = service.title;
+    if (DOM.detailDescription) DOM.detailDescription.textContent = service.desc;
 
     // Atualiza a imagem do serviço
-    if (service.image) {
+    if (service.image && DOM.detailImage) {
         DOM.detailImage.src = service.image;
-        DOM.detailImageContainer.style.display = 'block';
+        if (DOM.detailImageContainer) DOM.detailImageContainer.style.display = 'block';
     } else {
-        DOM.detailImageContainer.style.display = 'none';
+        if (DOM.detailImageContainer) DOM.detailImageContainer.style.display = 'none';
     }
 
     showView('view-service-detail');
 }
 
-// LÓGICA DO MODAL DE ORÇAMENTO
+// ABRIR MODAL DO FORMULÁRIO
 function openModalForm() {
     if (!activeService) return;
+    const DOM = getDOM();
     const category = getCategoryById(activeService.categoryId);
     
-    DOM.modalServiceSubtitle.textContent = `${activeService.title} (${category ? category.name : ''})`;
-    DOM.modalQuote.classList.add('active');
+    if (DOM.modalServiceSubtitle) {
+        DOM.modalServiceSubtitle.textContent = `${activeService.title} (${category ? category.name : ''})`;
+    }
+    
+    if (DOM.modalQuote) {
+        DOM.modalQuote.classList.add('active');
+    }
 }
 
+// FECHAR MODAL DO FORMULÁRIO
 function closeModalForm() {
-    DOM.modalQuote.classList.remove('active');
+    const DOM = getDOM();
+    if (DOM.modalQuote) {
+        DOM.modalQuote.classList.remove('active');
+    }
 }
 
-// MONTAGEM DA MENSAGEM DO WHATSAPP
+// ENVIAR FORMULÁRIO PARA O WHATSAPP
 function handleFormSubmit(e) {
     e.preventDefault();
-
     if (!activeService) return;
+
+    const DOM = getDOM();
     const category = getCategoryById(activeService.categoryId);
 
-    const name = DOM.clientName.value.trim();
-    const address = DOM.clientAddress.value.trim();
-    const bairro = DOM.clientBairro.value.trim();
-    const notes = DOM.clientNotes.value.trim();
+    const name = DOM.clientName ? DOM.clientName.value.trim() : '';
+    const address = DOM.clientAddress ? DOM.clientAddress.value.trim() : '';
+    const bairro = DOM.clientBairro ? DOM.clientBairro.value.trim() : '';
+    const notes = DOM.clientNotes ? DOM.clientNotes.value.trim() : '';
 
     let message = `*NOVA SOLICITAÇÃO DE ORÇAMENTO* 🛠️\n\n`;
     message += `*Serviço:* ${activeService.title}\n`;
@@ -362,12 +346,15 @@ function handleFormSubmit(e) {
     
     window.open(whatsappUrl, '_blank');
     closeModalForm();
-    DOM.formQuote.reset();
+    if (DOM.formQuote) DOM.formQuote.reset();
 }
 
 // PESQUISA
 function handleSearch(e) {
+    const DOM = getDOM();
     const rawQuery = e.target.value.toLowerCase().trim();
+    if (!DOM.suggestionsBox) return;
+
     DOM.suggestionsBox.innerHTML = '';
 
     if (rawQuery.length < CONFIG.minSearchLength) {
@@ -401,7 +388,7 @@ function handleSearch(e) {
             
             div.onclick = () => {
                 DOM.suggestionsBox.style.display = 'none';
-                DOM.searchInput.value = '';
+                if (DOM.searchInput) DOM.searchInput.value = '';
                 currentCategoryId = match.categoryId;
                 openService(match.id);
             };
@@ -415,5 +402,9 @@ function handleSearch(e) {
     }
 }
 
-// INICIALIZAR APLICAÇÃO
-init();
+// GARANTE QUE O CÓDIGO SÓ RODE QUANDO O HTML ESTIVER TOTALMENTE CARREGADO
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init();
+}
