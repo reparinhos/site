@@ -51,7 +51,7 @@ header {
 /* ESPAÇAMENTO DO CONTEÚDO (Para não cobrir o primeiro card) */
 .view {
     display: none;
-    padding: 125px 16px 16px 16px; /* 125px no topo empurra o conteúdo para baixo do header fixo */
+    padding: 200px 16px 16px 16px; /* 125px no topo empurra o conteúdo para baixo do header fixo */
     animation: fadeIn 0.3s ease;
 }
 
