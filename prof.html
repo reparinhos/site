@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Manutenção Residencial</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        p.subtitle {
+            margin-bottom: 20px;
+            color: #64748b;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-box:focus {
+            border-color: var(--primary-color);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 12px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+
+        .service-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #fff;
+            padding: 10px 14px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .service-item:hover {
+            border-color: var(--primary-color);
+            background-color: #eff6ff;
+        }
+
+        .service-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        .service-item span {
+            font-size: 0.95rem;
+            line-height: 1.3;
+        }
+
+        .footer-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            border-top: 1px solid var(--border-color);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+            z-index: 100;
+        }
+
+        .counter {
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--primary-hover);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Checklist de Serviços de Manutenção</h1>
+    <p class="subtitle">Selecione abaixo todos os serviços necessários para a sua residência.</p>
+
+    <input type="text" id="searchInput" class="search-box" placeholder="🔍 Pesquisar serviço (ex: torneira, vazamento, tomada)...">
+
+    <!-- Formulário apontado para FormSubmit -->
+    <form id="serviceForm" action="https://formsubmit.co/carlos.infohouse@gmail.com" method="POST">
+        <!-- Configurações do FormSubmit -->
+        <input type="hidden" name="_subject" value="formulário preenchido">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        
+        <!-- Campo oculto onde a lista formatada TXT será inserida -->
+        <input type="hidden" name="relatorio_txt" id="relatorioTxtInput">
+
+        <div class="services-grid" id="servicesGrid">
+            <!-- As checkboxes serão inseridas dinamicamente via JavaScript -->
+        </div>
+    </form>
+</div>
+
+<div class="footer-bar">
+    <div class="counter" id="selectedCount">0 serviços selecionados</div>
+    <button type="button" class="btn-submit" onclick="processAndSubmit()">Enviar e Gerar TXT</button>
+</div>
+
+<script>
+    // Lista completa de serviços
+    const listaServicos = [
+        "Torneira pingando", "Torneira com vazamento na base", "Torneira com baixa pressão", "Torneira quebrada",
+        "Registro vazando", "Registro emperrado", "Registro quebrado", "Cano com vazamento", "Cano furado",
+        "Cano entupido", "Vazamento na parede", "Vazamento no teto", "Vazamento no piso", "Vazamento sob a pia",
+        "Vazamento no vaso sanitário", "Vazamento na caixa acoplada", "Caixa acoplada sem parar de encher",
+        "Descarga fraca", "Descarga quebrada", "Vaso sanitário entupido", "Pia entupida", "Tanque entupido",
+        "Ralo entupido", "Ralo com mau cheiro", "Ralo transbordando", "Chuveiro com baixa pressão", "Chuveiro pingando",
+        "Chuveiro entupido", "Chuveiro queimado", "Sifão vazando", "Sifão quebrado", "Mangueira hidráulica rompida",
+        "Boia da caixa d’água com defeito", "Caixa d’água vazando", "Caixa d’água transbordando", "Caixa d’água sem encher",
+        "Falta de água em um ponto", "Baixa pressão de água", "Pressão excessiva na tubulação", "Ar na tubulação",
+        "Bomba d’água sem funcionar", "Bomba d’água fazendo barulho", "Bomba d’água sem pressão", "Bomba d’água vazando",
+        "Aquecedor sem aquecer", "Aquecedor apagando", "Aquecedor com baixa vazão", "Aquecedor apresentando erro",
+        "Tubulação de gás com vazamento", "Mangueira de gás vencida ou danificada", "Fogão com chama fraca",
+        "Fogão com chama irregular", "Cooktop com problema de instalação", "Coifa sem sucção", "Exaustor sem funcionar",
+        "Tomada sem energia", "Tomada queimada", "Tomada frouxa", "Tomada quebrada", "Interruptor quebrado",
+        "Interruptor sem funcionar", "Interruptor fazendo faísca", "Lâmpada piscando", "Lâmpada queimada",
+        "Luminária sem funcionar", "Lustre solto", "Lustre mal instalado", "Ventilador de teto sem funcionar",
+        "Ventilador fazendo barulho", "Ventilador girando devagar", "Disjuntor desarmando", "Disjuntor queimado",
+        "Disjuntor com defeito", "Queda frequente de energia em um circuito", "Curto-circuito", "Fiação aquecendo",
+        "Fiação antiga", "Fio desencapado", "Fiação mal dimensionada", "Falta de aterramento", "Aterramento inadequado",
+        "Quadro elétrico desorganizado", "Quadro elétrico antigo", "Barramento elétrico danificado", "DPS com defeito",
+        "DR desarmando", "Chuveiro elétrico desarmando o disjuntor", "Chuveiro elétrico sem aquecer",
+        "Chuveiro elétrico queimado", "Instalação de tomada nova", "Instalação de interruptor novo",
+        "Instalação de ponto de iluminação", "Instalação de tomada para eletrodoméstico", "Instalação de tomada externa",
+        "Instalação de dimmer", "Instalação de sensor de presença", "Instalação de campainha", "Campainha sem funcionar",
+        "Interfone sem áudio", "Interfone sem chamar", "Portão eletrônico sem abrir", "Portão eletrônico sem fechar",
+        "Portão fazendo barulho", "Motor de portão fraco", "Controle de portão sem funcionar", "Câmera de segurança sem imagem",
+        "Câmera sem alimentação", "DVR/NVR com problema", "Alarme disparando sozinho", "Sensor de alarme sem funcionar",
+        "Fechadura quebrada", "Fechadura emperrada", "Chave não gira", "Chave quebrada na fechadura", "Chave perdida",
+        "Porta trancada", "Cilindro de fechadura danificado", "Fechadura eletrônica sem funcionar", "Fechadura digital sem bateria",
+        "Senha de fechadura digital não funcionando", "Porta raspando no chão", "Porta não fecha", "Porta desalinhada",
+        "Porta rangendo", "Dobradiça quebrada", "Dobradiça enferrujada", "Maçaneta quebrada", "Maçaneta frouxa",
+        "Batente de porta danificado", "Janela emperrada", "Janela que não fecha", "Janela com vazamento de água",
+        "Janela com vidro quebrado", "Janela com esquadria danificada", "Fecho de janela quebrado", "Trilho de janela danificado",
+        "Vidro quebrado", "Vidro trincado", "Vidro solto", "Box de banheiro quebrado", "Box desalinhado",
+        "Box vazando água", "Roldana de box quebrada", "Espelho quebrado", "Espelho descolando", "Espelho mal instalado",
+        "Vidraça com infiltração", "Silicone deteriorado", "Vedação de janela deteriorada", "Tela mosquiteira rasgada",
+        "Parede com infiltração", "Parede com mofo", "Parede descascando", "Parede com bolhas", "Parede com rachaduras",
+        "Parede com trincas", "Parede esfarelando", "Reboco soltando", "Reboco rachado", "Buraco na parede",
+        "Furo de bucha danificado", "Quina de parede quebrada", "Teto com infiltração", "Teto com manchas de umidade",
+        "Teto com mofo", "Teto rachado", "Forro de gesso quebrado", "Forro de gesso trincado", "Sanca de gesso danificada",
+        "Moldura de gesso quebrada", "Drywall furado", "Drywall quebrado", "Drywall com infiltração", "Azulejo quebrado",
+        "Azulejo solto", "Azulejo trincado", "Rejunte deteriorado", "Rejunte mofado", "Rejunte soltando", "Piso quebrado",
+        "Piso solto", "Piso estufado", "Piso desnivelado", "Piso fazendo barulho", "Piso laminado levantando",
+        "Piso vinílico descolando", "Rodapé soltando", "Rodapé quebrado", "Rodapé estufado", "Taco solto", "Taco quebrado",
+        "Taco com cupim", "Madeira riscada", "Madeira manchada", "Madeira descascada", "Piso de madeira sem brilho",
+        "Piso de madeira com infiltração", "Piso com manchas", "Piso escorregadio", "Calçada quebrada", "Pintura descascando",
+        "Pintura manchada", "Parede precisando de pintura", "Teto precisando de pintura", "Pintura com bolhas",
+        "Pintura com mofo", "Pintura com diferença de tonalidade", "Tinta soltando", "Parede com marcas de móveis",
+        "Parede com marcas de crianças", "Parede com furos", "Parede com manchas de gordura", "Parede com manchas de água",
+        "Pintura externa desgastada", "Fachada descascando", "Fachada com fissuras", "Fachada com mofo", "Portão enferrujado",
+        "Grade enferrujada", "Corrimão enferrujado", "Grade quebrada", "Portão desalinhado", "Portão difícil de abrir",
+        "Portão fazendo barulho", "Solda quebrada", "Estrutura metálica trincada", "Guarda-corpo solto", "Corrimão solto",
+        "Cerca metálica danificada", "Tela metálica rasgada", "Telhado com goteira", "Telha quebrada", "Telha deslocada",
+        "Telha solta", "Telhado com infiltração", "Calha entupida", "Calha furada", "Calha vazando", "Rufo danificado",
+        "Rufos com vazamento", "Cumeeira danificada", "Telhado com mofo", "Telhado com sujeira acumulada",
+        "Forro manchado por goteira", "Marquise com infiltração", "Laje com infiltração", "Laje com fissuras",
+        "Laje com problemas de impermeabilização", "Parede externa infiltrando", "Impermeabilização deteriorada",
+        "Móvel quebrado", "Gaveta emperrada", "Gaveta quebrada", "Porta de armário desalinhada", "Porta de armário solta",
+        "Dobradiça de armário quebrada", "Puxador quebrado", "Puxador frouxo", "Corrediça de gaveta quebrada",
+        "Corrediça emperrada", "Armário desmontado", "Armário mal montado", "Guarda-roupa desmontado",
+        "Guarda-roupa com porta emperrada", "Guarda-roupa com espelho quebrado", "Cozinha planejada danificada",
+        "Móvel planejado desalinhado", "Prateleira solta", "Prateleira quebrada", "Nicho solto", "Mesa com pé quebrado",
+        "Cadeira quebrada", "Cama com estrutura solta", "Cama rangendo", "Painel de TV solto", "Suporte de TV solto",
+        "Varal quebrado", "Varal de teto com defeito", "Persiana emperrada", "Persiana quebrada", "Cortina com trilho quebrado",
+        "Trilho de cortina solto", "Toldo rasgado", "Toldo com estrutura danificada", "Estofado rasgado", "Sofá manchado",
+        "Sofá com espuma deformada", "Cadeira estofada danificada", "Colchão precisando de higienização",
+        "Tapete precisando de limpeza", "Ar-condicionado sem gelar", "Ar-condicionado pingando", "Ar-condicionado fazendo barulho",
+        "Ar-condicionado com mau cheiro", "Ar-condicionado congelando", "Ar-condicionado com baixa vazão de ar",
+        "Ar-condicionado não liga", "Ar-condicionado desligando sozinho", "Filtro de ar-condicionado sujo",
+        "Dreno de ar-condicionado entupido", "Geladeira não gelando", "Geladeira congelando demais", "Geladeira vazando água",
+        "Geladeira fazendo barulho", "Geladeira não liga", "Freezer não congelando", "Máquina de lavar não liga",
+        "Máquina de lavar não centrifuga", "Máquina de lavar não enche", "Máquina de lavar não escoa",
+        "Máquina de lavar vazando", "Máquina de lavar fazendo barulho", "Máquina de lavar trepidando",
+        "Secadora não aquece", "Lava-louças não liga", "Lava-louças não escoa", "Lava-louças vazando", "Forno não aquece",
+        "Forno aquece pouco", "Micro-ondas não liga", "Micro-ondas não aquece", "Micro-ondas fazendo faísca",
+        "Cooktop não acende", "Coifa fazendo barulho", "Coifa sem sucção", "Antena de TV sem sinal", "TV sem sinal de antena",
+        "Internet sem conexão", "Wi-Fi com sinal fraco", "Cabo de rede danificado", "Roteador mal instalado",
+        "Ponto de rede sem conexão", "Computador sem internet", "Impressora sem funcionar", "Nobreak sem carregar",
+        "Estabilizador com defeito", "Home theater sem áudio", "Sistema de som sem funcionar", "Projetor sem imagem",
+        "Controle remoto com defeito", "Jardim com mato alto", "Grama alta", "Grama seca", "Grama com falhas",
+        "Árvores precisando de poda", "Galhos perigosos", "Árvore com galhos sobre o telhado", "Jardim sem irrigação",
+        "Sistema de irrigação entupido", "Sistema de irrigação com vazamento", "Mangueira de jardim furada",
+        "Torneira de jardim quebrada", "Piscina suja", "Piscina com água verde", "Piscina com vazamento",
+        "Bomba de piscina sem funcionar", "Filtro de piscina entupido", "Filtro de piscina com defeito",
+        "Piscina com baixa circulação", "Azulejo de piscina quebrado", "Infiltração causada por chuva",
+        "Mofo causado por umidade", "Bolor em paredes", "Bolor em teto", "Cupins em móveis", "Cupins em estruturas de madeira",
+        "Baratas", "Formigas", "Ratos", "Camundongos", "Mosquitos", "Moscas", "Aranhas", "Pulgas", "Carrapatos",
+        "Abelhas ou vespas em área residencial", "Ninhos de insetos", "Mau cheiro vindo do ralo", "Mau cheiro vindo da tubulação",
+        "Mau cheiro no banheiro", "Entupimento de esgoto", "Esgoto retornando", "Caixa de gordura entupida",
+        "Caixa de gordura transbordando", "Fossa cheia", "Fossa com mau cheiro", "Tubulação de esgoto quebrada",
+        "Ralo externo entupido", "Canaleta entupida", "Drenagem do quintal deficiente", "Água acumulando no quintal",
+        "Água acumulando na garagem", "Infiltração na garagem", "Infiltração no banheiro", "Infiltração na cozinha",
+        "Infiltração na lavanderia", "Infiltração no quarto", "Infiltração na varanda", "Vazamento na área de serviço",
+        "Vazamento na cozinha", "Vazamento no banheiro", "Vazamento na lavanderia", "Vazamento na varanda",
+        "Vazamento na garagem", "Chave quebrada", "Chave perdida", "Chave presa na fechadura", "Fechadura travada",
+        "Fechadura sem lubrificação", "Porta sem tranca", "Tranca quebrada", "Cadeado travado", "Cadeado quebrado",
+        "Chave de veículo residencial perdida", "Cópia de chave", "Instalação de fechadura nova", "Instalação de olho mágico",
+        "Instalação de trava de segurança", "Instalação de trinco", "Instalação de puxador", "Montagem de móveis novos",
+        "Instalação de armários", "Instalação de prateleiras", "Instalação de nichos", "Instalação de suportes",
+        "Instalação de quadros", "Instalação de espelhos", "Instalação de televisão", "Instalação de cortinas",
+        "Instalação de persianas", "Instalação de varais", "Instalação de redes de proteção",
+        "Instalação de telas mosquiteiras", "Instalação de barras de apoio", "Instalação de acessórios de banheiro",
+        "Instalação de acessórios de cozinha", "Instalação de tomadas", "Instalação de luminárias",
+        "Instalação de ventiladores", "Instalação de chuveiros", "Instalação de torneiras", "Instalação de filtros de água",
+        "Instalação de purificadores", "Instalação de máquinas de lavar", "Instalação de lava-louças",
+        "Instalação de aquecedores", "Instalação de coifas", "Instalação de cooktops",
+        "Instalação de suportes para eletrodomésticos", "Instalação de portões", "Limpeza pesada residencial",
+        "Limpeza pós-obra", "Limpeza de vidros", "Limpeza de janelas", "Limpeza de fachadas", "Limpeza de telhados",
+        "Limpeza de calhas", "Limpeza de caixa d’água", "Limpeza de caixa de gordura", "Limpeza de piscina",
+        "Lavagem de sofá", "Higienização de colchão", "Higienização de tapetes", "Remoção de manchas de estofados",
+        "Remoção de mofo", "Remoção de bolor", "Remoção de sujeira pesada", "Remoção de resíduos de obra",
+        "Remoção de tinta de pisos", "Remoção de cimento de pisos", "Reparação de buracos em paredes",
+        "Reparação de fissuras", "Reparação de rachaduras superficiais", "Reparação de reboco", "Reparação de concreto",
+        "Reparação de calçadas", "Reparação de degraus", "Reparação de escadas", "Reparação de muros",
+        "Reparação de churrasqueira", "Reparação de lareira", "Reparação de forno a lenha", "Reparação de bancada",
+        "Reparação de pia", "Reparação de cuba", "Reparação de box", "Reparação de banheira", "Reparação de hidromassagem",
+        "Reparação de sauna", "Reparação de portão automático", "Reparação de cerca elétrica", "Reparação de sistema de alarme",
+        "Reparação de câmeras", "Reparação de interfone", "Reparação de antena", "Reparação de sistema de irrigação",
+        "Reparação de energia solar", "Reparação de aquecimento solar", "Reparação de instalações hidráulicas",
+        "Manutenção geral residencial"
+    ];
+
+    const container = id => document.getElementById(id);
+    const servicesGrid = container('servicesGrid');
+
+    // Renderiza os serviços na tela
+    function renderServices() {
+        listaServicos.forEach((servico, index) => {
+            const itemDiv = document.createElement('label');
+            itemDiv.className = 'service-item';
+            itemDiv.innerHTML = `
+                <input type="checkbox" name="servicos_selecionados" value="${servico}" onchange="updateCounter()">
+                <span>${servico}</span>
+            `;
+            servicesGrid.appendChild(itemDiv);
+        });
+    }
+
+    // Atualiza o contador de marcados
+    function updateCounter() {
+        const checkedCount = document.querySelectorAll('input[name="servicos_selecionados"]:checked').length;
+        container('selectedCount').innerText = `${checkedCount} serviço(s) selecionado(s)`;
+    }
+
+    // Filtro de busca em tempo real
+    container('searchInput').addEventListener('input', function(e) {
+        const filter = e.target.value.toLowerCase();
+        const items = servicesGrid.getElementsByClassName('service-item');
+        
+        Array.from(items).forEach(item => {
+            const text = item.textContent.toLowerCase();
+            if (text.includes(filter)) {
+                item.style.display = "flex";
+            } else {
+                item.style.display = "none";
+            }
+        });
+    });
+
+    // Função para gerar o arquivo TXT localmente e enviar o formulário
+    function processAndSubmit() {
+        const checkboxes = document.querySelectorAll('input[name="servicos_selecionados"]:checked');
+        
+        if (checkboxes.length === 0) {
+            alert('Por favor, selecione pelo menos um serviço antes de enviar.');
+            return;
+        }
+
+        // Construção do conteúdo em texto puro (.txt)
+        const dataAtual = new Date().toLocaleString('pt-BR');
+        let txtContent = `=================================================\n`;
+        txtContent += `    FORMULÁRIO PREENCHIDO - SERVIÇOS DE MANUTENÇÃO\n`;
+        txtContent += `    Data de Envio: ${dataAtual}\n`;
+        txtContent += `=================================================\n\n`;
+        txtContent += `SERVIÇOS SELECIONADOS (${checkboxes.length}):\n\n`;
+
+        checkboxes.forEach((cb, i) => {
+            txtContent += `${i + 1}. [X] ${cb.value}\n`;
+        });
+
+        txtContent += `\n=================================================\n`;
+
+        // 1. Preenche o campo oculto do formulário com o texto formatado para o e-mail
+        container('relatorioTxtInput').value = txtContent;
+
+        // 2. Faz o download do arquivo .txt para o usuário
+        const blob = new Blob([txtContent], { type: 'text/plain;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `servicos_selecionados_${Date.now()}.txt`;
+        link.click();
+
+        // 3. Submete o formulário por e-mail via FormSubmit
+        container('serviceForm').submit();
+    }
+
+    // Inicialização
+    renderServices();
+</script>
+
+</body>
+</html>
